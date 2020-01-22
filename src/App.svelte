@@ -1,30 +1,66 @@
 <script>
-	export let name;
+  import Menu from "./components/UI/Menu.svelte";
+  import ListEvents from "./components/ListEvents.svelte";
+  import AddUser from "./components/AddUser.svelte";
+  import AddEvent from "./components/AddEvent.svelte";
+  import EditEvent from "./components/AddEvent.svelte";
+  import Login from "./components/Login.svelte";
+
+  let showModalAddUser = false;
+  let showModalAddEvent = false;
+  let showModalLogin = false;
+  let showModalEditEvent = false;
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+  .container {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0;
+  }
+  .header {
+    background-color: aqua;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  h1 {
+    margin: 0;
+    padding: 1em;
+  }
 </style>
+
+<main class="container">
+
+  <div class="header">
+    <h1>Dokumenty</h1>
+    <div id="menu">
+      <Menu {showModalLogin} />
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="listing">
+      <ListEvents />
+    </div>
+
+    {#if showModalAddUser}
+      <AddUser {showModalAddUser} />
+    {/if}
+
+    {#if showModalAddEvent}
+      <AddEvent {showModalAddEvent} />
+    {/if}
+
+    {#if showModalLogin}
+      <Login {showModalLogin} />
+    {/if}
+
+    {#if showModalEditEvent}
+      <EditEvent {showModalEditEvent} />
+    {/if}
+
+  </div>
+
+</main>
