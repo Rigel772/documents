@@ -2,28 +2,17 @@
   import { db, auth } from "../firebase";
   import Modal from "./UI/Modal.svelte";
   import Button from "./UI/Button.svelte";
+  import { modals } from "../store.js";
 
-  let arrList = [];
   let email = "";
   let password = "";
-  export let showModalLogin = false;
 
-  db.collection("event")
-    .where("tags", "array-contains", "tag4")
-    .orderBy("date", "asc")
-    .onSnapshot(snapData => {
-      arrList = snapData.docs;
-    });
-
-  function deleteItem(itemId) {
-    db.collection("event")
-      .doc(itemId)
-      .delete();
+  function modalUpdate(value) {
+    return (ModalLoginStatus = !value);
   }
 
   function loginClicked(e) {
-    e.preventDefault();
-    showModalSignin = false;
+    $modals.login = false;
     auth
       .signInWithEmailAndPassword(email, password)
       .catch(function(error) {
@@ -44,7 +33,7 @@
 
 </style>
 
-<Modal on:close={() => (showModalLogin = false)}>
+<Modal on:close={() => ($modals.login = false)}>
   <h2 slot="header">Sign in form</h2>
 
   <div slot="content">
@@ -57,9 +46,12 @@
     </form>
   </div>
   <div slot="footer">
-    <Button button_text="Dodaj" on:click={loginClicked} />
-    <Button button_text="Cancel" on:click={() => (showModalLogin = false)} />
-    <a href="#!" class="btn">Sign up</a>
-    <a href="#!" class="btn" }>Cancel</a>
+    <a href="#!" on:click|preventDefault={loginClicked}>
+      <Button button_text="Dodaj" />
+    </a>
+    <a href="#!" on:click|preventDefault={() => ($modals.login = false)}>
+      <Button button_text="Cancel" />
+    </a>
+
   </div>
 </Modal>

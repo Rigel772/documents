@@ -3,13 +3,10 @@
   import ListEvents from "./components/ListEvents.svelte";
   import AddUser from "./components/AddUser.svelte";
   import AddEvent from "./components/AddEvent.svelte";
-  import EditEvent from "./components/AddEvent.svelte";
+  import EditEvent from "./components/EditEvent.svelte";
   import Login from "./components/Login.svelte";
 
-  let showModalAddUser = false;
-  let showModalAddEvent = false;
-  let showModalLogin = false;
-  let showModalEditEvent = false;
+  import { modals } from "./store";
 </script>
 
 <style>
@@ -23,6 +20,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   }
   h1 {
     margin: 0;
@@ -35,32 +33,30 @@
   <div class="header">
     <h1>Dokumenty</h1>
     <div id="menu">
-      <Menu {showModalLogin} />
+      <Menu />
     </div>
   </div>
 
   <div class="content">
 
+    {#if $modals.login}
+      <Login />
+    {/if}
+
+    {#if $modals.addUser}
+      <AddUser />
+    {/if}
+
+    {#if $modals.addEvent}
+      <AddEvent />
+    {/if}
+
+    {#if $modals.editEvent}
+      <EditEvent />
+    {/if}
     <div class="listing">
       <ListEvents />
     </div>
-
-    {#if showModalAddUser}
-      <AddUser {showModalAddUser} />
-    {/if}
-
-    {#if showModalAddEvent}
-      <AddEvent {showModalAddEvent} />
-    {/if}
-
-    {#if showModalLogin}
-      <Login {showModalLogin} />
-    {/if}
-
-    {#if showModalEditEvent}
-      <EditEvent {showModalEditEvent} />
-    {/if}
-
   </div>
 
 </main>

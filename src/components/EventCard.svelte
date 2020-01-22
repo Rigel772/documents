@@ -19,10 +19,11 @@
 
 <style>
   .card {
-    border: 1px solid gray;
-    border-radius: 5px;
+    background: #fff;
+    border-radius: 2px;
     padding: 1em;
     margin-bottom: 1em;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   }
 
   .szczegoly {

@@ -1,11 +1,11 @@
 <script>
-  import { db, auth } from "../firebase";
+  import { db } from "../firebase";
   import EventCard from "./EventCard.svelte";
 
   let arrList = [];
 
+  // .where("tags", "array-contains", "tag4")
   db.collection("event")
-    .where("tags", "array-contains", "tag4")
     .orderBy("date", "asc")
     .onSnapshot(snapData => {
       arrList = snapData.docs;

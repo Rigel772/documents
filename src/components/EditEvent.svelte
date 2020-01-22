@@ -1,6 +1,7 @@
 <script>
   import { db } from "../firebase";
-  import Modal from "./Modal.svelte";
+  import Modal from "./UI/Modal.svelte";
+  import { modals } from "../store.js";
 
   let event_title = "";
   let event_date = "";
@@ -11,8 +12,6 @@
   let tags = [];
   let doc_link =
     "https://drive.google.com/file/d/1rFmveqM6_azs86SKMf2xLmHBnuRTVMsk/view?usp=sharing";
-
-  let showModalDodajDoc = false;
 
   function addNewEvent() {
     if (event_title != "" && event_date != "" && short_story != "") {
@@ -34,22 +33,14 @@
     long_story = "";
   }
 
-  function showFormularz(e) {
-    e.preventDefault();
-    showModalDodajDoc = !showModalDodajDoc;
-    document.querySelector("#showFormButton").style.display = "none";
+  function deleteItem(itemId) {
+    db.collection("event")
+      .doc(itemId)
+      .delete();
   }
-  function hideFormularz(e) {
-    e.preventDefault();
-    showModalDodajDoc = !showModalDodajDoc;
-    document.querySelector("#showFormButton").removeAttribute("style");
-  }
-
-  M.updateTextFields();
 </script>
 
-<style lang="scss">
-  @import "../../node_modules/materialize-css/sass/materialize.scss";
+<style>
   .wrapper {
     padding: 1em 1em 1em 1em;
     margin: 1em 0;
@@ -59,64 +50,59 @@
 
 <div class="wrapper ">
 
-  <button id="showFormButton" class="btn green" on:click={showFormularz}>
-    Dodaj dokument
-  </button>
+  <Modal on:close={() => ($modals.editEvent = false)}>
+    <div slot="header">
+      <h5>Dodaj dokument</h5>
+      <p>Tytul {event_title}</p>
+      <p>Data {event_date}</p>
+      <p>Opis {short_story}</p>
+    </div>
+    <div slot="content">
+      <form class="formularz">
+        <div class="row">
+          <!-- event title -->
+          <input id="tile" type="text" bind:value={event_title} required />
+          <label for="tile">Tytuł</label>
+        </div>
 
-  {#if showModalDodajDoc}
-    <Modal on:close={hideFormularz}>
-      <div slot="header">
-        <h5>Dodaj dokument</h5>
-        <p>Tytul {event_title}</p>
-        <p>Data {event_date}</p>
-        <p>Opis {short_story}</p>
-      </div>
-      <div slot="content">
-        <form class="formularz">
-          <div class="row">
-            <!-- event title -->
-            <input id="tile" type="text" bind:value={event_title} required />
-            <label for="tile">Tytuł</label>
-          </div>
+        <div>
+          <!-- event date -->
 
-          <div>
-            <!-- event date -->
-
-          </div>
-          <div>
-            <!-- short story -->
-            <input
-              type="text"
-              bind:value={short_story}
-              placeholder="Krotki opis"
-              required />
-          </div>
-          <div>
-            <!-- long story -->
-            <textarea
-              id="opis_dlugi"
-              bind:value={long_story}
-              placeholder="Wyczerpujacy opis" />
-            <label for="opis_dlugi" />
-          </div>
-          <!-- koszta -->
-          <input type="number" bind:value={koszta} placeholder="Podaj kwote" />
-
+        </div>
+        <div>
+          <!-- short story -->
           <input
             type="text"
-            bind:value={doc_link}
-            placeholder="Document link to GDrive" />
+            bind:value={short_story}
+            placeholder="Krotki opis"
+            required />
+        </div>
+        <div>
+          <!-- long story -->
+          <textarea
+            id="opis_dlugi"
+            bind:value={long_story}
+            placeholder="Wyczerpujacy opis" />
+          <label for="opis_dlugi" />
+        </div>
+        <!-- koszta -->
+        <input type="number" bind:value={koszta} placeholder="Podaj kwote" />
 
-        </form>
-      </div>
-      <div slot="footer">
-        <button class="btn green" on:click={addNewEvent}>Dodaj dokument</button>
-        <button class="btn green" on:click={hideFormularz}>Cancel</button>
-      </div>
-    </Modal>
-  {/if}
+        <input
+          type="text"
+          bind:value={doc_link}
+          placeholder="Document link to GDrive" />
 
-  <!-- ******************************************************* -->
-  <!-- ******************************************************* -->
+      </form>
+    </div>
+    <div slot="footer">
+      <a href="#!" on:click|preventDefault={addNewEvent}>
+        <button class="btn green">Dodaj dokument</button>
+      </a>
+      <a href="#!" on:click|preventDefault={() => ($modals.editEvent = false)}>
+        <button class="btn green">Cancel</button>
+      </a>
+    </div>
+  </Modal>
 
 </div>

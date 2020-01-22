@@ -1,8 +1,8 @@
 <script>
   import { db, auth } from "../firebase";
+  import { modals } from "../store.js";
 
   let arrList = [];
-  showModalAddUser = false;
 
   db.collection("event")
     .where("tags", "array-contains", "tag4")
@@ -13,7 +13,7 @@
 
   function addUserClicked(e) {
     e.preventDefault();
-    showModalAddUser = false;
+    $modals.addUser = false;
     auth
       .createUserWithEmailAndPassword(email, password)
       .catch(function(error) {
