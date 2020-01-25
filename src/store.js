@@ -19,9 +19,23 @@ export const events = writable([{
     descr: '',
     date: '',
     end_date: '',
-    koszta: '',
+    cost: '',
     refund: '',
     tags: [],
     pdf: 'https://drive.google.com/file/d/1rFmveqM6_azs86SKMf2xLmHBnuRTVMsk/view?usp=sharing'
 
 }])
+
+export const categories = [
+    'AZE',
+    'Kolano',
+    'Personalne',
+    'Regatta'
+]
+
+export const tags = [
+    'faktura',
+    'email',
+    'decyzja',
+    'badanie'
+]

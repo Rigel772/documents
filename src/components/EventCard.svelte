@@ -1,13 +1,14 @@
 <script>
   import Button from "./UI/Button.svelte";
 
-  export let event_title = "";
-  export let event_date = "";
-  export let short_story = "";
-  export let long_story = "";
-  export let koszta = "";
+  export let id = "";
+  export let title = "";
+  export let date = "";
+  export let brief = "";
+  export let descr = "";
+  export let cost = "";
   export let tags = [];
-  export let doc_link = "";
+  export let pdf = "";
 
   let pokazOpis = false;
 
@@ -32,20 +33,20 @@
 </style>
 
 <div class="card">
-
-  <h3>{event_title}</h3>
+  <h3>{id}</h3>
+  <h3>{title}</h3>
   <div class="">
 
     <div class="">
       <div class="">
-        <p>{event_date}</p>
-        {short_story}
+        <p>{date}</p>
+        {brief}
         {#if pokazOpis}
           <div class="szczegoly">
-            <p>{long_story}</p>
+            <p>{descr}</p>
             <p>
               Poniesione koszta:
-              <strong>{koszta}</strong>
+              <strong>{cost}</strong>
               PLN
             </p>
           </div>
@@ -59,7 +60,7 @@
         <a href="#!" on:click={toggleOpis}>
           <Button button_text="Szczególy" />
         </a>
-        <a href={doc_link} target="blank">
+        <a href={pdf} target="blank">
           <Button button_text="PDF" />
         </a>
 

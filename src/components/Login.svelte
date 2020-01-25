@@ -3,6 +3,7 @@
   import Modal from "./UI/Modal.svelte";
   import Button from "./UI/Button.svelte";
   import { modals } from "../store.js";
+  // import { login } from "./Auth.svelte";
 
   let email = "";
   let password = "";
@@ -13,17 +14,15 @@
 
   function loginClicked(e) {
     $modals.login = false;
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-      })
-      .then(cred => {
-        console.log(cred.user);
-      });
+    auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    });
+    // .then(cred => {
+    //   console.log(cred.user);
+    // });
     email = "";
     password = "";
   }

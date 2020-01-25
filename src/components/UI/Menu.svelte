@@ -19,7 +19,7 @@
     <li>Wyloguj</li>
   </a>
   <a href="#!" on:click={() => ($modals.addUser = true)}>
-    <li>Users</li>
+    <li>Add User</li>
   </a>
   <a href="#!" on:click={() => ($modals.addEvent = true)}>
     <li>Add doc</li>
