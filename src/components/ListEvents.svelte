@@ -2,13 +2,14 @@
   import { db } from "../firebase";
   import EventCard from "./EventCard.svelte";
 
-  let arrList = [];
+  let eventsList = [];
 
   // .where("tags", "array-contains", "tag4")
-  db.collection("event")
+  db.collection("events")
     .orderBy("date", "asc")
     .onSnapshot(snapData => {
-      arrList = snapData.docs;
+      eventsList = snapData.docs;
+      console.log(eventsList);
     });
 
   function deleteItem(itemId) {
@@ -26,16 +27,17 @@
 
 <div class="list-events">
   <ul>
-    {#each arrList as item}
+    {#each eventsList as item}
       <li>
         <EventCard
-          event_title={item.data().title}
-          event_date={item.data().date}
-          short_story={item.data().short_story}
-          long_story={item.data().long_story}
-          koszta={item.data().koszta}
+          id={item.data().itemId}
+          title={item.data().title}
+          date={item.data().date}
+          brief={item.data().brief}
+          descr={item.data().descr}
+          cost={item.data().cost}
           tags={item.data().tags}
-          doc_link={item.data().doc_link} />
+          pdf={item.data().pdf} />
       </li>
     {/each}
   </ul>

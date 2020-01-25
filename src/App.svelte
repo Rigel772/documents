@@ -5,7 +5,7 @@
   import AddEvent from "./components/AddEvent.svelte";
   import EditEvent from "./components/EditEvent.svelte";
   import Login from "./components/Login.svelte";
-
+  import Options from "./components/Options.svelte";
   import { modals } from "./store";
 </script>
 
@@ -54,6 +54,9 @@
     {#if $modals.editEvent}
       <EditEvent />
     {/if}
+    <div class="options">
+      <Options />
+    </div>
     <div class="listing">
       <ListEvents />
     </div>
