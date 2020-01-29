@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 
-export const showModalAddUser = writable(false);
+// export const showModalAddUser = writable(false);
+export const showModalUsers = writable(false);
 export const showModalAddEvent = writable(false);
 export const showModalLogin = writable(false);
 export const showModalEditEvent = writable(false);
@@ -22,9 +23,39 @@ export const events = writable([{
     cost: '',
     refund: '',
     tags: [],
-    pdf: 'https://drive.google.com/file/d/1rFmveqM6_azs86SKMf2xLmHBnuRTVMsk/view?usp=sharing'
+    link: 'https://drive.google.com/file/d/1rFmveqM6_azs86SKMf2xLmHBnuRTVMsk/view?usp=sharing'
 
 }])
+
+export const event_store = writable([{
+    id: "",
+    title: "",
+    date: "",
+    brief: "",
+    descr: "",
+    date: "",
+    end_date: "",
+    cost: "",
+    refund: "",
+    tags: [],
+    link: ""
+
+}])
+
+export const filter_tags = writable([
+    'faktura',
+    'email',
+    'decyzja',
+    'badanie',
+    'paragon',
+    'ksiegowy',
+    'komornik',
+    'swieta',
+    'mama',
+    'krakow'
+])
+
+export const display_category = writable('Kolano')
 
 export const categories = [
     'AZE',
@@ -37,5 +68,12 @@ export const tags = [
     'faktura',
     'email',
     'decyzja',
-    'badanie'
+    'badanie',
+    'paragon',
+    'ksiegowy',
+    'komornik',
+    'swieta',
+    'mama',
+    'krakow'
+
 ]

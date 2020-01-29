@@ -1,20 +1,73 @@
 <script>
+  import { auth, db } from "../firebase";
   import Button from "./UI/Button.svelte";
+  import Menu_editDoc from "./UI/Menu_editDoc.svelte";
 
-  export let id = "";
+  export let docID = "";
   export let title = "";
   export let date = "";
+  export let end_date = "";
   export let brief = "";
   export let descr = "";
   export let cost = "";
+  export let refund = "";
   export let tags = [];
-  export let pdf = "";
+  export let link = "";
 
+  let current_event = {
+    docID,
+    title,
+    date,
+    end_date,
+    brief,
+    descr,
+    cost,
+    refund,
+    tags,
+    link
+  };
+
+  // To show the edit doc link only for admins and editors
+  let show_edit_doc_link = false;
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      user.getIdTokenResult().then(token => {
+        if (token.claims.admin) {
+          // console.log("user is admin");
+
+          show_edit_doc_link = true;
+        } else if (token.claims.editor) {
+          // console.log("user is editor");
+
+          show_edit_doc_link = true;
+        }
+      });
+    } else {
+      show_edit_doc_link = false;
+      // console.log(" from app.svelte - wylogowany");
+    }
+  });
+
+  //  handler for button show detailed description
   let pokazOpis = false;
 
   function toggleOpis(e) {
     e.preventDefault();
     pokazOpis = !pokazOpis;
+  }
+
+  function deleteItem() {
+    if (confirm("Na pewno skasowac?")) {
+      db.collection("event")
+        .doc(docID)
+        .delete()
+        .then(function() {
+          console.log("Document successfully deleted!");
+        })
+        .catch(function(error) {
+          console.error("Error removing document: ", error);
+        });
+    }
   }
 </script>
 
@@ -30,10 +83,25 @@
   .szczegoly {
     margin-top: 0.5em;
   }
+  .buttons {
+    margin-top: 1em;
+  }
+  .tags {
+    margin: 1em 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .tag {
+    display: inline;
+    text-transform: uppercase;
+    padding: 0.5em;
+    font-weight: 700;
+    font-size: 80%;
+  }
 </style>
 
 <div class="card">
-  <h3>{id}</h3>
+  <!-- <h3>{docID}</h3> -->
   <h3>{title}</h3>
   <div class="">
 
@@ -52,19 +120,31 @@
           </div>
         {/if}
 
-        <p>{tags}</p>
-
       </div>
 
-      <div class="">
+      <div class="buttons">
         <a href="#!" on:click={toggleOpis}>
           <Button button_text="Szczególy" />
         </a>
-        <a href={pdf} target="blank">
-          <Button button_text="PDF" />
+        <a href={link} target="blank">
+          <Button button_text="Dokument" />
+        </a>
+
+        {#if show_edit_doc_link}
+          <Menu_editDoc {current_event} />
+        {/if}
+
+        <a href="#!" on:click={deleteItem}>
+          <Button button_text="Usuń dokument" />
         </a>
 
       </div>
+      <div class="tags">
+        {#each tags as tag}
+          <div class="tag">{tag}</div>
+        {/each}
+      </div>
+
     </div>
   </div>
 

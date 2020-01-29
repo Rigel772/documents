@@ -1,22 +1,67 @@
 <script>
   import Menu from "./components/UI/Menu.svelte";
   import ListEvents from "./components/ListEvents.svelte";
-  import AddUser from "./components/AddUser.svelte";
+  import Users from "./components/Users.svelte";
   import AddEvent from "./components/AddEvent.svelte";
   import EditEvent from "./components/EditEvent.svelte";
   import Login from "./components/Login.svelte";
   import Options from "./components/Options.svelte";
   import { modals } from "./store";
+  import Info from "./components/Info.svelte";
+  // import { userStatus } from "./components/Auth.svelte";
 </script>
 
 <style>
+  /* **************** LAYOUT ****************** */
   .container {
-    max-width: 60rem;
+    max-width: 80rem;
     margin: 0 auto;
+    display: grid;
+    grid-template-areas:
+      " header "
+      " options "
+      " content "
+      " footer ";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    /* grid-gap: 10px; */
+  }
+  @media only screen and (min-width: 700px) {
+    .container {
+      display: grid;
+      grid-template-areas:
+        " header header"
+        " options content"
+        " footer footer";
+      grid-template-columns: 30rem 1fr;
+      grid-template-rows: auto 1fr 10rem;
+      /* grid-gap: 10px; */
+    }
+
+    .header {
+      grid-area: header;
+    }
+
+    .options {
+      grid-area: options;
+      height: 100vh;
+    }
+
+    .content {
+      grid-area: content;
+    }
+
+    .footer {
+      grid-area: footer;
+    }
+  }
+  /* ********** LAYOUT END **************** */
+  .container {
     padding: 0;
   }
+
   .header {
-    background-color: aqua;
+    background-color: rgb(151, 255, 154);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,6 +70,11 @@
   h1 {
     margin: 0;
     padding: 1em;
+  }
+  .footer {
+    background-color: black;
+    color: whitesmoke;
+    padding: 3em;
   }
 </style>
 
@@ -36,15 +86,17 @@
       <Menu />
     </div>
   </div>
-
+  <div class="options">
+    <Options />
+  </div>
   <div class="content">
 
     {#if $modals.login}
       <Login />
     {/if}
 
-    {#if $modals.addUser}
-      <AddUser />
+    {#if $modals.Users}
+      <Users />
     {/if}
 
     {#if $modals.addEvent}
@@ -54,12 +106,12 @@
     {#if $modals.editEvent}
       <EditEvent />
     {/if}
-    <div class="options">
-      <Options />
-    </div>
+    <!-- <Info /> -->
+
     <div class="listing">
       <ListEvents />
     </div>
-  </div>
 
+  </div>
+  <div class="footer">To jest footer</div>
 </main>

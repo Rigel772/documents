@@ -1,42 +1,22 @@
 <script>
   import { db } from "../firebase";
   import Modal from "./UI/Modal.svelte";
-  import { modals } from "../store.js";
+  import { modals, event_store, tags } from "../store.js";
 
-  let event_title = "";
-  let event_date = "";
-  let short_story = "";
-  let long_story = "";
-  let date = "";
-  let koszta = 0;
-  let tags = [];
-  let doc_link =
-    "https://drive.google.com/file/d/1rFmveqM6_azs86SKMf2xLmHBnuRTVMsk/view?usp=sharing";
+  // let edited_event = event.store;
 
-  function addNewEvent() {
-    if (event_title != "" && event_date != "" && short_story != "") {
-      db.collection("event").add({
-        title: event_title,
-        date: event_date,
-        short_story: short_story,
-        long_story: long_story,
-        koszta: koszta,
-        doc_link: doc_link
-      });
-    } else {
-      alert("Posze wypelnic przynajmniej 3 pierwsze pola");
-    }
+  // console.log("edited event", edited_event);
+  // console.log("event store", event_store);
 
-    event_title = "";
-    event_date = "";
-    short_story = "";
-    long_story = "";
-  }
-
-  function deleteItem(itemId) {
-    db.collection("event")
-      .doc(itemId)
-      .delete();
+  function updateEvent() {
+    console.dir($event_store);
+    let doc_id = $event_store.docID;
+    let doc = $event_store;
+    console.log("id ", doc_id);
+    console.log("doc ", doc);
+    db.collection("events")
+      .doc(doc_id)
+      .set({ ...doc });
   }
 </script>
 
@@ -46,62 +26,142 @@
     margin: 1em 0;
     background-color: rgb(196, 247, 238);
   }
+
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+  }
+  .title,
+  .brief,
+  .descr,
+  .link,
+  .tags {
+    grid-column: 1 / span 2;
+  }
+  .date {
+    display: inline-block;
+  }
+  form input,
+  form textarea {
+    width: 100%;
+  }
+  div.tags {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .tags label {
+    display: inline-block;
+
+    margin-right: 1em;
+  }
+  .tags input {
+    display: inline-block;
+  }
 </style>
 
 <div class="wrapper ">
 
   <Modal on:close={() => ($modals.editEvent = false)}>
     <div slot="header">
-      <h5>Dodaj dokument</h5>
-      <p>Tytul {event_title}</p>
-      <p>Data {event_date}</p>
-      <p>Opis {short_story}</p>
+      <h2>Edycja dokumentu</h2>
+      <!-- <p>Tytul {new_event.title}</p>
+      <p>Data {new_event.date}</p>
+      <p>Opis {new_event.biref}</p>
+      <p>Tags {new_event.tags}</p> -->
     </div>
     <div slot="content">
-      <form class="formularz">
-        <div class="row">
-          <!-- event title -->
-          <input id="tile" type="text" bind:value={event_title} required />
+      <form>
+        <div class="title">
+          <!-- title -->
           <label for="tile">Tytuł</label>
-        </div>
-
-        <div>
-          <!-- event date -->
-
-        </div>
-        <div>
-          <!-- short story -->
           <input
+            id="tile"
             type="text"
-            bind:value={short_story}
-            placeholder="Krotki opis"
+            bind:value={$event_store.title}
             required />
         </div>
-        <div>
-          <!-- long story -->
-          <textarea
-            id="opis_dlugi"
-            bind:value={long_story}
-            placeholder="Wyczerpujacy opis" />
+
+        <div class="date">
+          <!-- date -->
+          <label for="date">Data</label>
+          <input type="date" bind:value={$event_store.date} required />
+        </div>
+        <div class="date">
+          <!-- event end date -->
+          <label for="end-date">Końcowa data (opcjonalnie)</label>
+          <input type="date" bind:value={$event_store.end_date} required />
+        </div>
+        <div class="brief">
+          <!-- biref -->
+          <label>Krótki opis</label>
+          <input type="text" bind:value={$event_store.brief} required />
+        </div>
+        <div class="descr">
+          <!-- descr -->
+          <label>Szczegółowy opis</label>
+          <textarea id="opis_dlugi" bind:value={$event_store.descr} />
           <label for="opis_dlugi" />
         </div>
         <!-- koszta -->
-        <input type="number" bind:value={koszta} placeholder="Podaj kwote" />
+        <div class="cost">
+          <label>Koszta</label>
+          <input type="number" bind:value={$event_store.cost} />
+        </div>
+        <div class="refund">
+          <label>Refund</label>
+          <input type="number" bind:value={$event_store.refund} />
+        </div>
 
-        <input
-          type="text"
-          bind:value={doc_link}
-          placeholder="Document link to GDrive" />
+        <div class="link">
+          <label>Link do dokumentu</label>
+          <input type="text" bind:value={$event_store.link} />
+        </div>
 
       </form>
+      <h4>Tagi:</h4>
+      <div class="tags">
+        {#each $event_store.tags as tag}
+          <div class="tag">
+            <input
+              id={tag}
+              type="checkbox"
+              bind:group={$event_store.tags}
+              value={tag} />
+            <label for={tag}>{tag}</label>
+
+            <!-- <label for={tag}>
+  
+                <input
+                  id={tag}
+                  type="checkbox"
+                  bind:group={new_event.tags}
+                  value={tag} />
+                {tag}
+              </label> -->
+          </div>
+        {/each}
+
+      </div>
+
+      <!-- <h4>Dodaj tagi:</h4>
+      <div class="tags">
+        {#each $event_store.tags as tag}
+          <div class="tag">
+            <input id={tag} type="checkbox" bind:group={$tags} value={tag} />
+            <label for={tag}>{tag}</label>
+
+            
+          </div>
+        {/each}
+
+      </div> -->
     </div>
     <div slot="footer">
-      <a href="#!" on:click|preventDefault={addNewEvent}>
-        <button class="btn green">Dodaj dokument</button>
-      </a>
-      <a href="#!" on:click|preventDefault={() => ($modals.editEvent = false)}>
-        <button class="btn green">Cancel</button>
-      </a>
+      <button class="btn green" on:click={updateEvent}>Zapisz</button>
+      <button class="btn green" on:click={() => ($modals.editEvent = false)}>
+        Cancel
+      </button>
     </div>
   </Modal>
 

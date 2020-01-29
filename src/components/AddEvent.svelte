@@ -1,7 +1,7 @@
 <script>
   import { db } from "../firebase";
   import Modal from "./UI/Modal.svelte";
-  import { modals, events } from "../store";
+  import { modals, events, tags, categories, display_category } from "../store";
   let new_event = {
     title: "",
     date: "",
@@ -11,10 +11,14 @@
     end_date: "",
     cost: "",
     refund: "",
-    tags: [],
-    pdf:
+    tags: tags,
+    link:
       "https://drive.google.com/file/d/1rFmveqM6_azs86SKMf2xLmHBnuRTVMsk/view?usp=sharing"
   };
+
+  let available_tags = tags;
+  // let choosen_tags = tags;
+  let collection_name = $display_category.toLowerCase();
 
   function addNewEvent() {
     if (
@@ -22,7 +26,7 @@
       new_event.date != "" &&
       new_event.biref != ""
     ) {
-      db.collection("events").add(new_event);
+      db.collection($display_category).add(new_event);
     } else {
       alert("Posze wypelnic przynajmniej 3 pierwsze pola");
     }
@@ -40,61 +44,131 @@
     margin: 1em 0;
     background-color: rgb(196, 247, 238);
   }
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+  }
+  .title,
+  .brief,
+  .descr,
+  .link,
+  .tags {
+    grid-column: 1 / span 2;
+  }
+  .date {
+    display: inline-block;
+  }
+  form input,
+  form textarea {
+    width: 100%;
+  }
+  div.tags {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .tags label {
+    display: inline-block;
+
+    margin-right: 1em;
+  }
+  .tags input {
+    display: inline-block;
+  }
 </style>
 
 <div class="wrapper ">
 
   <Modal on:close={() => ($modals.addEvent = false)}>
     <div slot="header">
-      <h5>Dodaj dokument</h5>
-      <p>Tytul {new_event.title}</p>
+      <h2>Dodaj dokument</h2>
+      <!-- <p>Tytul {new_event.title}</p>
       <p>Data {new_event.date}</p>
       <p>Opis {new_event.biref}</p>
+      <p>Tags {new_event.tags}</p> -->
+      <div class="categories">
+        <h4>Zmień kategorie:</h4>
+
+        <select bind:value={$display_category}>
+          {#each categories as category}
+            <option value={category}>{category}</option>
+          {/each}
+        </select>
+      </div>
     </div>
     <div slot="content">
-      <form class="formularz">
-        <div class="row">
-          <!-- event title -->
-          <input id="tile" type="text" bind:value={new_event.title} required />
+      <form>
+        <div class="title">
+          <!-- title -->
           <label for="tile">Tytuł</label>
+          <input id="tile" type="text" bind:value={new_event.title} required />
         </div>
 
-        <div>
-          <!-- event date -->
-          <input
-            type="date"
-            bind:value={new_event.date}
-            placeholder="Krotki opis"
-            required />
+        <div class="date">
+          <!-- date -->
+          <label for="date">Data</label>
+          <input type="date" bind:value={new_event.date} required />
         </div>
-        <div>
-          <!-- short story -->
-          <input
-            type="text"
-            bind:value={new_event.brief}
-            placeholder="Krotki opis"
-            required />
+        <div class="date">
+          <!-- event end date -->
+          <label for="end-date">Końcowa data (opcjonalnie)</label>
+          <input type="date" bind:value={new_event.end_date} required />
         </div>
-        <div>
-          <!-- long story -->
-          <textarea
-            id="opis_dlugi"
-            bind:value={new_event.descr}
-            placeholder="Wyczerpujacy opis" />
+        <div class="brief">
+          <!-- biref -->
+          <label>Krótki opis</label>
+          <input type="text" bind:value={new_event.brief} required />
+        </div>
+        <div class="descr">
+          <!-- descr -->
+          <label>Szczegółowy opis</label>
+          <textarea id="opis_dlugi" bind:value={new_event.descr} />
           <label for="opis_dlugi" />
         </div>
         <!-- koszta -->
-        <input
-          type="number"
-          bind:value={new_event.cost}
-          placeholder="Podaj kwote" />
+        <div class="cost">
+          <label>Koszta</label>
+          <input type="number" bind:value={new_event.cost} />
+        </div>
+        <div class="refund">
+          <label>Refund</label>
+          <input type="number" bind:value={new_event.refund} />
+        </div>
 
-        <input
-          type="text"
-          bind:value={new_event.pdf}
-          placeholder="Document link to GDrive" />
+        <div class="link">
+          <label>Link do dokumentu</label>
+          <input
+            type="text"
+            bind:value={new_event.link}
+            placeholder="Document link to GDrive" />
+        </div>
 
       </form>
+      <h4>Tagi:</h4>
+      <div class="tags">
+        {#each available_tags as tag}
+          <div class="tag">
+            <input
+              id={tag}
+              type="checkbox"
+              bind:group={new_event.tags}
+              value={tag} />
+            <label for={tag}>{tag}</label>
+
+            <!-- <label for={tag}>
+  
+                <input
+                  id={tag}
+                  type="checkbox"
+                  bind:group={new_event.tags}
+                  value={tag} />
+                {tag}
+              </label> -->
+          </div>
+        {/each}
+
+      </div>
+
     </div>
     <div slot="footer">
       <button class="btn green" on:click={addNewEvent}>Dodaj dokument</button>

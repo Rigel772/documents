@@ -1,5 +1,13 @@
 <script>
-  import { db, auth } from "../firebase.js";
+  import { db, auth, functions } from "../firebase.js";
+
+  export const userStatus = auth.onAuthStateChanged(function(user) {
+    if (user) {
+      console.log(user);
+    } else {
+      console.log("niezalogowany");
+    }
+  });
 
   function login(email, pass) {
     const promise = auth.signInWithEmailAndPassword(email, password);

@@ -27,7 +27,7 @@
         console.log("from create user", cred.user);
       })
       .then(addUserRole)
-      .then(() => ($modals.addUser = false));
+      .then(() => ($modals.Users = false));
   }
 
   function addUserRole() {
@@ -56,13 +56,23 @@
   }
 </style>
 
-<Modal on:close={() => ($modals.addUser = false)}>
-  <h2 slot="header">Dodaj uzytkownika</h2>
+<Modal on:close={() => ($modals.Users = false)}>
+
+  <div slot="header">
+    <h2>Lista uzytkownikow</h2>
+    (funkcjonalnosc do zrobienia)
+    <ul>
+      <li>Admin</li>
+      <li>Editor</li>
+      <li>Gosc</li>
+    </ul>
+    <h2>Dodaj uzytkownika</h2>
+  </div>
 
   <div slot="content">
     <form>
       <label for="email">Email</label>
-      <input type="email" id="email" bind:value={email} autofocus />
+      <input type="email" id="email" bind:value={email} />
 
       <label for="password">Password</label>
       <input type="password" id="password" bind:value={password} />
@@ -101,7 +111,7 @@
     <a href="#!" on:click|preventDefault={addUserClicked}>
       <Button button_text="Dodaj" />
     </a>
-    <a href="#!" on:click={() => ($modals.addUser = false)}>
+    <a href="#!" on:click={() => ($modals.Users = false)}>
       <Button button_text="Cancel" />
     </a>
 

@@ -7,24 +7,35 @@
 
   let email = "";
   let password = "";
+  let loginError = "";
 
   function modalUpdate(value) {
     return (ModalLoginStatus = !value);
   }
 
   function loginClicked(e) {
-    $modals.login = false;
-    auth.signInWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-    });
-    // .then(cred => {
-    //   console.log(cred.user);
-    // });
-    email = "";
-    password = "";
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        loginError = "Niepoprawne dane logowania";
+      })
+      .then(cred => {
+        // $modals.login = false;
+        console.log(cred.user);
+        email = "";
+        password = "";
+        loginError = "";
+        $modals.login = false;
+      });
+  }
+
+  function handleKeyboard(e) {
+    let key = event.key;
+    if (key == "Enter") loginClicked();
   }
 </script>
 
@@ -32,25 +43,27 @@
 
 </style>
 
+<svelte:window on:keydown={handleKeyboard} />
 <Modal on:close={() => ($modals.login = false)}>
-  <h2 slot="header">Sign in form</h2>
+  <h2 slot="header">Logowanie</h2>
 
   <div slot="content">
     <form>
-      <input type="email" id="email" bind:value={email} />
+      <input type="email" id="email" bind:value={email} autofocus />
       <label for="email">Email</label>
 
       <input type="password" id="password" bind:value={password} />
-      <label for="password">Password</label>
+      <label for="password">Hasło</label>
     </form>
   </div>
   <div slot="footer">
     <a href="#!" on:click|preventDefault={loginClicked}>
-      <Button button_text="Dodaj" />
+      <Button button_text="Zaloguj" />
     </a>
     <a href="#!" on:click|preventDefault={() => ($modals.login = false)}>
       <Button button_text="Cancel" />
     </a>
+    <div class="login-error">{loginError}</div>
 
   </div>
 </Modal>
