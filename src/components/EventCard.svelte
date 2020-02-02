@@ -121,28 +121,30 @@
         {/if}
 
       </div>
+      <div id="printHide">
 
-      <div class="buttons">
-        <a href="#!" on:click={toggleOpis}>
-          <Button button_text="Szczególy" />
-        </a>
-        <a href={link} target="blank">
-          <Button button_text="Dokument" />
-        </a>
+        <div class="buttons">
+          <a href="#!" on:click={toggleOpis}>
+            <Button button_text="Szczególy" />
+          </a>
+          <a href={link} target="blank">
+            <Button button_text="Dokument" />
+          </a>
 
-        {#if show_edit_doc_link}
-          <Menu_editDoc {current_event} />
-        {/if}
+          {#if show_edit_doc_link}
+            <Menu_editDoc {current_event} />
+          {/if}
 
-        <a href="#!" on:click={deleteItem}>
-          <Button button_text="Usuń dokument" />
-        </a>
+          <a href="#!" on:click={deleteItem}>
+            <Button button_text="Usuń dokument" />
+          </a>
 
-      </div>
-      <div class="tags">
-        {#each tags as tag}
-          <div class="tag">{tag}</div>
-        {/each}
+        </div>
+        <div class="tags">
+          {#each tags as tag}
+            <div class="tag">{tag}</div>
+          {/each}
+        </div>
       </div>
 
     </div>

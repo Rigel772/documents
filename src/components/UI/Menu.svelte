@@ -41,10 +41,7 @@
 </script>
 
 <style>
-  li {
-    display: inline-block;
-    margin: 0 1em;
-  }
+
 </style>
 
 <ul id="menu">

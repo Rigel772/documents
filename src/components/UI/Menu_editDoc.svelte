@@ -25,17 +25,6 @@
 </script>
 
 <style>
-  /* a {
-    display: inline-block;
-    text-decoration: none;
-    padding: 1em;
-
-    text-transform: uppercase;
-    color: rgb(41, 41, 41);
-  }
-  a:hover {
-    font-weight: 700;
-  } */
   .btn {
     background-color: #4caf50; /* Green */
     border: none;

@@ -7,7 +7,7 @@ html, body {
 body {
 	
 	color: #333;
-	background-color: #E2E1E0;
+	background-color: rgb(240, 240, 240);
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -71,3 +71,36 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
+
+.header a {
+	color: whitesmoke;
+	display: inline-block;
+    text-decoration: none;
+    padding: 1em;
+    text-transform: uppercase;
+}
+.header a:hover {
+    font-weight: 700;
+  }
+
+  @media print {
+        body * {
+			/* // part to hide at the time of print */
+			visibility: hidden; 
+			/* // not necessary use if colors not visible */
+            -webkit-print-color-adjust: exact !important; 
+        }
+
+        #printHide {
+			/* // To hide */
+            visibility: hidden !important;  
+        }
+
+        #print-wrapper * {
+			/* // Print only required part */
+            visibility: visible; 
+            text-align: left;
+            -webkit-print-color-adjust: exact !important;
+		}
+		
+    }

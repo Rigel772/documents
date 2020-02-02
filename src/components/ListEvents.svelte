@@ -3,6 +3,7 @@
   import { db } from "../firebase";
   import EventCard from "./EventCard.svelte";
   import { event_store, filter_tags, display_category } from "../store.js";
+  import { login } from "./Auth";
 
   let eventsList = [];
   // array-contains-any
@@ -14,7 +15,7 @@
       .onSnapshot(
         snapData => {
           eventsList = snapData.docs;
-          console.log(eventsList);
+          // console.log(eventsList);
         },
         function(error) {
           console.log(error);

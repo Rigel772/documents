@@ -2,6 +2,8 @@
   import { db } from "../firebase";
   import Modal from "./UI/Modal.svelte";
   import { modals, events, tags, categories, display_category } from "../store";
+  import ChooseCategory from "./ChooseCategory.svelte";
+
   let new_event = {
     title: "",
     date: "",
@@ -16,9 +18,10 @@
       "https://drive.google.com/file/d/1rFmveqM6_azs86SKMf2xLmHBnuRTVMsk/view?usp=sharing"
   };
 
+  let message = "";
+
   let available_tags = tags;
   // let choosen_tags = tags;
-  let collection_name = $display_category.toLowerCase();
 
   function addNewEvent() {
     if (
@@ -26,15 +29,22 @@
       new_event.date != "" &&
       new_event.biref != ""
     ) {
-      db.collection($display_category).add(new_event);
+      db.collection($display_category)
+        .add(new_event)
+        .then(function() {
+          console.log("Document successfully written!");
+          message = "Dokument zapisano.";
+        })
+        .catch(function(error) {
+          console.error("Error writing document: ", error);
+        });
+      new_event.title = "";
+      new_event.date = "";
+      new_event.brief = "";
+      new_event.descr = "";
     } else {
       alert("Posze wypelnic przynajmniej 3 pierwsze pola");
     }
-
-    new_event.title = "";
-    new_event.date = "";
-    new_event.brief = "";
-    new_event.descr = "";
   }
 </script>
 
@@ -75,6 +85,11 @@
   .tags input {
     display: inline-block;
   }
+  .message {
+    display: inline-block;
+    color: red;
+    margin-left: 1em;
+  }
 </style>
 
 <div class="wrapper ">
@@ -87,13 +102,8 @@
       <p>Opis {new_event.biref}</p>
       <p>Tags {new_event.tags}</p> -->
       <div class="categories">
-        <h4>Zmień kategorie:</h4>
-
-        <select bind:value={$display_category}>
-          {#each categories as category}
-            <option value={category}>{category}</option>
-          {/each}
-        </select>
+        <ChooseCategory />
+        <p>Kategoria dokumentu {$display_category}</p>
       </div>
     </div>
     <div slot="content">
@@ -112,7 +122,7 @@
         <div class="date">
           <!-- event end date -->
           <label for="end-date">Końcowa data (opcjonalnie)</label>
-          <input type="date" bind:value={new_event.end_date} required />
+          <input type="date" bind:value={new_event.end_date} />
         </div>
         <div class="brief">
           <!-- biref -->
@@ -171,10 +181,15 @@
 
     </div>
     <div slot="footer">
-      <button class="btn green" on:click={addNewEvent}>Dodaj dokument</button>
+      <button class="btn green" on:click|preventDefault={addNewEvent}>
+        Dodaj dokument
+      </button>
       <button class="btn green" on:click={() => ($modals.addEvent = false)}>
         Cancel
       </button>
+      <div class="message">
+        <p>{message}</p>
+      </div>
     </div>
   </Modal>
 

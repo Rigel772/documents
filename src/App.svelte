@@ -8,11 +8,32 @@
   import Options from "./components/Options.svelte";
   import { modals } from "./store";
   import Info from "./components/Info.svelte";
-  // import { userStatus } from "./components/Auth.svelte";
+  import { auth } from "./firebase";
+
+  function printPdf() {
+    window.print();
+  }
+
+  let showListing = false;
+  let showInfo = true;
+  let showOptions = false;
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      showListing = true;
+      showInfo = false;
+      showOptions = true;
+    } else {
+      showListing = false;
+      showInfo = true;
+      showOptions = false;
+    }
+  });
+  // console.log(user);
 </script>
 
 <style>
   /* **************** LAYOUT ****************** */
+
   .container {
     max-width: 80rem;
     margin: 0 auto;
@@ -33,8 +54,8 @@
         " header header"
         " options content"
         " footer footer";
-      grid-template-columns: 30rem 1fr;
-      grid-template-rows: auto 1fr 10rem;
+      grid-template-columns: min-content 3fr;
+      grid-template-rows: auto 1fr 5rem;
       /* grid-gap: 10px; */
     }
 
@@ -45,6 +66,7 @@
     .options {
       grid-area: options;
       height: 100vh;
+      min-width: 14em;
     }
 
     .content {
@@ -56,16 +78,71 @@
     }
   }
   /* ********** LAYOUT END **************** */
+  /* *********** PRINT ******************** */
+  @media print {
+    :global(body) {
+      height: auto !important;
+      overflow: visible !important;
+    }
+
+    :global(.container) {
+      overflow: visible !important;
+    }
+    :global(button, a) {
+      display: none !important;
+    }
+    :global(.screen) {
+      display: none;
+    }
+    :global(.print) {
+      display: block;
+    }
+    :global(.section) {
+      width: 100%;
+      page-break-before: always;
+    }
+    :global(input, textarea) {
+      border: none !important;
+      padding: 0;
+      resize: none;
+      margin: 0;
+    }
+    :global(.project-item) {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    :global(h2) {
+      color: #ccc !important;
+      margin-top: 5px;
+      margin-bottom: 30px;
+    }
+    :global(.builder) {
+      display: none;
+    }
+    :global(p, li, textarea) {
+      line-height: 1.5 !important;
+    }
+    :global(.card) {
+      box-shadow: none !important;
+    }
+    :global(.tags) {
+      display: none !important;
+    }
+  }
+  /* *********** PRINT END ******************** */
   .container {
     padding: 0;
   }
 
   .header {
-    background-color: rgb(151, 255, 154);
+    color: whitesmoke;
+    background-color: rgb(29, 29, 29);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    border: 2px solid rgb(29, 29, 29);
+    border-radius: 3px;
+    /* box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); */
   }
   h1 {
     margin: 0;
@@ -74,7 +151,13 @@
   .footer {
     background-color: black;
     color: whitesmoke;
-    padding: 3em;
+    padding: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .footer button {
+    margin: 0 1em;
   }
 </style>
 
@@ -86,9 +169,11 @@
       <Menu />
     </div>
   </div>
-  <div class="options">
-    <Options />
-  </div>
+  {#if showOptions}
+    <div class="options">
+      <Options />
+    </div>
+  {/if}
   <div class="content">
 
     {#if $modals.login}
@@ -106,12 +191,20 @@
     {#if $modals.editEvent}
       <EditEvent />
     {/if}
-    <!-- <Info /> -->
+    {#if showInfo}
+      <Info />
+    {/if}
 
-    <div class="listing">
-      <ListEvents />
-    </div>
+    {#if showListing}
+      <div id="print-wrapper" class="listing">
+        <ListEvents />
+      </div>
+    {/if}
 
   </div>
-  <div class="footer">To jest footer</div>
+
+  <div class="footer">
+    <button class="btn" on:click={printPdf}>Print</button>
+    <p>Dziala tylko w Chrome, aby zapisac wybiez "do pliku pdf"</p>
+  </div>
 </main>

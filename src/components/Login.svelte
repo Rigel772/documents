@@ -33,7 +33,7 @@
       });
   }
 
-  function handleKeyboard(e) {
+  function handleKeyboard() {
     let key = event.key;
     if (key == "Enter") loginClicked();
   }
@@ -49,11 +49,11 @@
 
   <div slot="content">
     <form>
-      <input type="email" id="email" bind:value={email} autofocus />
       <label for="email">Email</label>
+      <input type="email" id="email" bind:value={email} />
 
-      <input type="password" id="password" bind:value={password} />
       <label for="password">Hasło</label>
+      <input type="password" id="password" bind:value={password} />
     </form>
   </div>
   <div slot="footer">

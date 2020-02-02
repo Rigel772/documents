@@ -55,14 +55,14 @@ export const filter_tags = writable([
     'krakow'
 ])
 
-export const display_category = writable('Kolano')
+export const display_category = writable('AZE')
 
-export const categories = [
+export const categories = writable([
     'AZE',
     'Kolano',
     'Personalne',
     'Regatta'
-]
+])
 
 export const tags = [
     'faktura',

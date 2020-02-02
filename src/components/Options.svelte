@@ -1,20 +1,29 @@
 <script>
-  import { tags, filter_tags, display_category, categories } from "../store.js";
+  import { tags, filter_tags, display_category } from "../store.js";
+  import AddCategory from "./AddCategory.svelte";
+  import ChooseCategory from "./ChooseCategory.svelte";
+  import ShowTags from "./ShowTags.svelte";
+  import { db } from "../firebase";
 
   let oskar_tags;
   let tag_value;
   let selected = "";
+  let categories = [];
+
+  // let showTagsComponent;
+
+  // function updateTagsForCategory() {
+  //   showTagsComponent.document_tags;
+  // }
 
   // console.log("wybrana", wybrana);
   // console.log("selected", selected);
 
   // console.log($filter_tags);
   let tmp = $filter_tags;
-  // console.log("stan tmp ", tmp);
-
-  const updateTags = e => {
+  const updateTagsState = e => {
     // console.log("clicked", e);
-
+    // updateTagsForCategory();
     let tag_name = e.target.value;
     // console.log("wybrany tag: ", tag_name);
     // console.log("tag przed operacja: ", tmp);
@@ -35,8 +44,9 @@
   .wrapper {
     padding: 1em;
     margin: 1em;
-    background-color: #defcdf;
+    background-color: #dddddd;
     height: 100%;
+    border-radius: 3px;
   }
   h4,
   select {
@@ -57,17 +67,9 @@
 </style>
 
 <div class="wrapper">
-  <div class="categories">
-    <h4>Zmień kategorie:</h4>
-
-    <select bind:value={$display_category}>
-      {#each categories as category}
-        <option value={category}>{category}</option>
-      {/each}
-    </select>
-  </div>
+  <ChooseCategory />
   <h3>
-    Opcje wyswietlania dla kategorii
+    KATERGORIA
     <strong>{$display_category}</strong>
   </h3>
   <h4>Tagi:</h4>
@@ -77,7 +79,7 @@
 
         <label>
           <input
-            on:click={updateTags}
+            on:click={updateTagsState}
             class="checkbox"
             type="checkbox"
             name="tagi"
@@ -89,5 +91,10 @@
     {/each}
 
   </div>
+
+  <div class="new-category">
+    <AddCategory />
+  </div>
+  <ShowTags />
 
 </div>
