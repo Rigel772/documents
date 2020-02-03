@@ -1,7 +1,7 @@
 <script>
   import { db } from "../firebase";
   import Modal from "./UI/Modal.svelte";
-  import { modals, events, tags, categories, display_category } from "../store";
+  import { modals, events, tags, categories, current_category } from "../store";
   import ChooseCategory from "./ChooseCategory.svelte";
 
   let new_event = {
@@ -29,7 +29,7 @@
       new_event.date != "" &&
       new_event.biref != ""
     ) {
-      db.collection($display_category)
+      db.collection($current_category)
         .add(new_event)
         .then(function() {
           console.log("Document successfully written!");
@@ -103,7 +103,7 @@
       <p>Tags {new_event.tags}</p> -->
       <div class="categories">
         <ChooseCategory />
-        <p>Kategoria dokumentu {$display_category}</p>
+        <p>Kategoria dokumentu {$current_category}</p>
       </div>
     </div>
     <div slot="content">

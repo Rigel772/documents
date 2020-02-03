@@ -5,7 +5,7 @@
   import AddEvent from "./components/AddEvent.svelte";
   import EditEvent from "./components/EditEvent.svelte";
   import Login from "./components/Login.svelte";
-  import Options from "./components/Options.svelte";
+  import Options from "./components/options/Options.svelte";
   import { modals } from "./store";
   import Info from "./components/Info.svelte";
   import { auth } from "./firebase";

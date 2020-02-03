@@ -1,6 +1,6 @@
 <script>
-  import { display_category } from "../store";
-  import { db } from "../firebase";
+  import { current_category, category_tags } from "../../store";
+  import { db } from "../../firebase";
   //   import { afterUpdate } from "svelte";
 
   //   db.collection("categories").onSnapshot(snapshot => {
@@ -15,27 +15,28 @@
   let tags = [];
   let tag = "";
   let document_tags;
+  // const unsubscribe = current_category.subscribe();
+  // document_tags = db
+  //   .collection("categories")
+  //   .doc($current_category)
+  //   // .where("name", "==", $current_category)
+  //   .get()
+  //   .then(function(querySnapshot) {
+  //     querySnapshot.forEach(function(doc) {
+  //       // doc.data() is never undefined for query doc snapshots
+  //       // console.log(doc.id, " => ", doc.data());
+  //       document_tags = doc.data().tags;
+  //     });
+  //   })
 
-  document_tags = db
-    .collection("categories")
-    .where("name", "==", $display_category)
-    .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        document_tags = doc.data().tags;
-      });
-    })
-
-    .catch(function(error) {
-      console.log("Error getting documents: ", error);
-    });
+  // .catch(function(error) {
+  //   console.log("Error getting documents: ", error);
+  // });
 
   //   afterUpdate(() => {
   //     document_tags = db
   //       .collection("categories")
-  //       .where("name", "==", $display_category)
+  //       .where("name", "==", $current_category)
   //       .get()
   //       .then(function(querySnapshot) {
   //         querySnapshot.forEach(function(doc) {
@@ -68,8 +69,8 @@
 </style>
 
 <div class="wrapper">
-  <p>Tagi dla kategorii {$display_category}:</p>
-  {#each document_tags as tag}
+  <p>Tagi dla kategorii {$current_category}:</p>
+  {#each $category_tags as tag}
     <div class="tag">{tag}</div>
   {/each}
 </div>

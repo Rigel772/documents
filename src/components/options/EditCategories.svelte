@@ -1,5 +1,5 @@
 <script>
-  import { db } from "../firebase";
+  import { db } from "../../firebase";
   import ChooseCategory from "./ChooseCategory.svelte";
 
   let new_category = "";
@@ -9,7 +9,7 @@
   db.collection("categories").onSnapshot(snapshot => {
     categories = [];
     snapshot.docs.forEach(item => {
-      categories = [...categories, item.data().name];
+      categories = [...categories, item.id];
       // console.log(item.data().name);
       // console.log(categories);
       return categories;

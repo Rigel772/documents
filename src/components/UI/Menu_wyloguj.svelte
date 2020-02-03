@@ -12,8 +12,7 @@
   //       console.log("cos nie poszlo");
   //     });
   // };
-  import { loguot } from "../Auth";
-  let logout;
+  import { logout } from "../Auth.svelte";
 </script>
 
 <style>

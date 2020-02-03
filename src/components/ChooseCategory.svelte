@@ -1,27 +1,47 @@
 <script>
   import { db } from "../firebase";
-  import { display_category } from "../store";
-  import { onMount } from "svelte";
+  import { current_category } from "../store";
+  // import { onMount, afterUpdate } from "svelte";
+  import { saveCurrentCategory } from "./Auth.svelte";
 
-  // onMount($display_category => $display_category);
+  // onMount(()=> {
+
+  // });
 
   let categories = [];
 
   db.collection("categories").onSnapshot(snapshot => {
     categories = [];
     snapshot.docs.forEach(item => {
-      categories = [...categories, item.data().name];
+      categories = [...categories, item.id];
       // console.log(item.data().name);
-      // console.log(categories);
+      console.log(categories);
       return categories;
     });
   });
+
+  function handleCategoryChange() {
+    //update current category in database
+    saveCurrentCategory($current_category);
+    //load all category tags
+
+    //load last choosen category tags
+  }
+  $: console.log("from choose category", $current_category);
+  // afterUpdate(() => {
+  //   saveCurrentCategory($current_category);
+  // });
+  // $: () => {
+  //   $current_category = $current_category;
+  //   saveCurrentCategory($current_category);
+  //   console.log("cat changed", $current_category);
+  // };
 </script>
 
 <div class="categories">
   <h4>Zmień kategorie:</h4>
 
-  <select bind:value={$display_category}>
+  <select bind:value={$current_category} on:change={handleCategoryChange}>
     {#each categories as category}
       <option value={category}>{category}</option>
     {/each}

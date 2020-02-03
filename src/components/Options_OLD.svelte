@@ -1,8 +1,13 @@
 <script>
-  import { tags, filter_tags, display_category } from "../store.js";
-  import AddCategory from "./AddCategory.svelte";
+  import {
+    tags,
+    filter_tags,
+    current_category,
+    category_tags
+  } from "../store.js";
+  import EditCategories from "./EditCategories.svelte";
   import ChooseCategory from "./ChooseCategory.svelte";
-  import ShowTags from "./ShowTags.svelte";
+  import CategoryTags from "./CategoryTags.svelte";
   import { db } from "../firebase";
 
   let oskar_tags;
@@ -10,6 +15,7 @@
   let selected = "";
   let categories = [];
 
+  console.log("from options ", $category_tags);
   // let showTagsComponent;
 
   // function updateTagsForCategory() {
@@ -20,12 +26,13 @@
   // console.log("selected", selected);
 
   // console.log($filter_tags);
-  let tmp = $filter_tags;
+  // let tmp = $filter_tags;
   const updateTagsState = e => {
     // console.log("clicked", e);
     // updateTagsForCategory();
+    console.log($category_tags);
     let tag_name = e.target.value;
-    // console.log("wybrany tag: ", tag_name);
+    console.log("wybrany tag: ", tag_name);
     // console.log("tag przed operacja: ", tmp);
     // console.log(tmp.includes.)
     if ($filter_tags.indexOf(tag_name) === -1) {
@@ -44,7 +51,7 @@
   .wrapper {
     padding: 1em;
     margin: 1em;
-    background-color: #dddddd;
+    background-color: #f3b4b4;
     height: 100%;
     border-radius: 3px;
   }
@@ -69,12 +76,12 @@
 <div class="wrapper">
   <ChooseCategory />
   <h3>
-    KATERGORIA
-    <strong>{$display_category}</strong>
+    KATERGORIA DDDD
+    <strong>{$current_category} {$category_tags}</strong>
   </h3>
   <h4>Tagi:</h4>
   <div class="tags">
-    {#each tags as tag}
+    {#each $category_tags as tag}
       <div class="tag" data-target={tag}>
 
         <label>
@@ -84,7 +91,7 @@
             type="checkbox"
             name="tagi"
             value={tag}
-            bind:group={tmp} />
+            bind:group={$category_tags} />
           {tag}
         </label>
       </div>
@@ -93,8 +100,8 @@
   </div>
 
   <div class="new-category">
-    <AddCategory />
+    <EditCategories />
   </div>
-  <ShowTags />
+  <CategoryTags />
 
 </div>
