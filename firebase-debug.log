@@ -1,0 +1,246 @@
+[debug] [2020-02-05T23:20:24.225Z] ----------------------------------------------------------------------
+[debug] [2020-02-05T23:20:24.226Z] Command:       /home/oskar/.nvm/versions/node/v10.13.0/bin/node /home/oskar/.nvm/versions/node/v10.13.0/bin/firebase deploy
+[debug] [2020-02-05T23:20:24.226Z] CLI Version:   7.12.0
+[debug] [2020-02-05T23:20:24.226Z] Platform:      linux
+[debug] [2020-02-05T23:20:24.226Z] Node Version:  v10.13.0
+[debug] [2020-02-05T23:20:24.227Z] Time:          Thu Feb 06 2020 00:20:24 GMT+0100 (Central European Standard Time)
+[debug] [2020-02-05T23:20:24.227Z] ----------------------------------------------------------------------
+[debug] [2020-02-05T23:20:24.227Z] 
+[debug] [2020-02-05T23:20:24.232Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-02-05T23:20:24.232Z] > authorizing via signed-in user
+[debug] [2020-02-05T23:20:24.232Z] [iam] checking project docs-ad56a for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update"]
+[debug] [2020-02-05T23:20:24.234Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/docs-ad56a:testIamPermissions  
+
+[debug] [2020-02-05T23:20:24.671Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:24.676Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/docs-ad56a  
+ 
+[debug] [2020-02-05T23:20:25.095Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'docs-ad56a'...
+[info] 
+[info] i  deploying database, firestore, functions, hosting
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] ✔  functions: Finished running predeploy script.
+[info] i  database: checking rules syntax...
+[debug] [2020-02-05T23:20:27.113Z] >>> HTTP REQUEST PUT https://docs-ad56a.firebaseio.com/.settings/rules.json?dryRun=true  
+ {
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {
+    ".read": false,
+    ".write": false
+  }
+}
+[debug] [2020-02-05T23:20:28.016Z] <<< HTTP RESPONSE 200
+[info] ✔  database: rules syntax for database docs-ad56a is valid
+[info] i  firestore: reading indexes from firestore.indexes.json...
+[info] i  cloud.firestore: checking firestore.rules for compilation errors...
+[debug] [2020-02-05T23:20:28.024Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/docs-ad56a:test  
+
+[debug] [2020-02-05T23:20:28.988Z] <<< HTTP RESPONSE 200
+[info] ✔  cloud.firestore: rules file firestore.rules compiled successfully
+[debug] [2020-02-05T23:20:28.993Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "8"
+  },
+  "dependencies": {
+    "firebase-admin": "^8.6.0",
+    "firebase-functions": "^3.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "firebase-functions-test": "^0.1.6"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2020-02-05T23:20:28.996Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/docs-ad56a/services/cloudfunctions.googleapis.com  
+ 
+[debug] [2020-02-05T23:20:28.997Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/docs-ad56a/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2020-02-05T23:20:30.079Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:30.161Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2020-02-05T23:20:30.164Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/docs-ad56a/adminSdkConfig  
+ 
+[debug] [2020-02-05T23:20:30.454Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:30.455Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/docs-ad56a/versions  
+
+[debug] [2020-02-05T23:20:32.015Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:32.023Z] >>> HTTP REQUEST GET https://firebaserules.googleapis.com/v1/projects/docs-ad56a/releases?pageSize=10&pageToken=  
+ 
+[debug] [2020-02-05T23:20:32.024Z] >>> HTTP REQUEST GET https://firestore.googleapis.com/v1beta2/projects/docs-ad56a/databases/(default)/collectionGroups/-/indexes  
+ 
+[debug] [2020-02-05T23:20:32.388Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:32.390Z] >>> HTTP REQUEST GET https://firestore.googleapis.com/v1beta2/projects/docs-ad56a/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false  
+ 
+[debug] [2020-02-05T23:20:32.645Z] <<< HTTP RESPONSE 200
+[info] i  firestore: there are some indexes defined in your project that are not present in your firestore indexes file. Run firebase firestore:indexes and save the result to correct the discrepancy.
+[info] ✔  firestore: deployed indexes in firestore.indexes.json successfully
+[debug] [2020-02-05T23:20:32.895Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:32.899Z] >>> HTTP REQUEST GET https://firebaserules.googleapis.com/v1/projects/docs-ad56a/rulesets/d28fb7b4-b482-4c1e-b9b8-4001c552aafc  
+ 
+[debug] [2020-02-05T23:20:33.766Z] <<< HTTP RESPONSE 200
+[info] i  firestore: latest version of firestore.rules already up to date, skipping upload...
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2020-02-05T23:20:33.773Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/docs-ad56a/configs  
+ 
+[debug] [2020-02-05T23:20:34.270Z] <<< HTTP RESPONSE 200
+[info] i  functions: packaged functions (39.05 KB) for uploading
+[debug] [2020-02-05T23:20:34.433Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/docs-ad56a/locations/us-central1/functions:generateUploadUrl  
+ 
+[debug] [2020-02-05T23:20:35.193Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:35.195Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-9a7f804b-7395-4e08-8487-65e00dddc50e/28c5e536-b285-4a5e-ab8d-db67b3f92a85.zip?GoogleAccessId=service-958604944885@gcf-admin-robot.iam.gserviceaccount.com&Expires=1580946635&Signature=dsCft0q18YAun0TghI4WIo9s8L9O8i8%2F4rzxGv1pIy0XYEIaFHh6B9XLrSGW9EO0B95rQ9ghRSMTF7T0cT%2BZw1KejgsRgatXUjxaFADeoYzHCBi8gW%2FQZole7RWZHFZ%2BqeugldbRpGd8EVdD0LIPR4KLf105sMCvL%2BPNeZpDQDSze8JwqqY%2FwhaKomk1BL%2BaX4g0gEZVy2mxdMkhzQzoT6szADsd2JGo04053a1TAYi9jdkjGbQcv79knSEVhU2T9e4lETkdAS6V13VrA4ZLaiHajnVMLNyCkxk%2FzO9oyYmPwSx%2BMwAZwXff5%2BA8lUTWoY4edfh%2F1zMwxo6QEZUjXA%3D%3D  
+ <request body omitted>
+[debug] [2020-02-05T23:20:35.730Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: functions folder uploaded successfully
+[info] i  hosting[docs-ad56a]: beginning deploy...
+[info] i  hosting[docs-ad56a]: found 7 files in public
+[debug] [2020-02-05T23:20:36.056Z] [hosting] hash cache [cHVibGlj] stored for 7 files
+[debug] [2020-02-05T23:20:36.056Z] [hosting][hash queue][FINAL]
+[debug] [2020-02-05T23:20:36.056Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/docs-ad56a/versions/a4074e6bc0cc13d3:populateFiles  
+ <request body omitted>
+[debug] [2020-02-05T23:20:37.318Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:37.327Z] [hosting][populate queue][FINAL]
+[debug] [2020-02-05T23:20:37.327Z] [hosting] uploads queued: 4
+[debug] [2020-02-05T23:20:41.061Z] [hosting][upload queue][FINAL]
+[info] ✔  hosting[docs-ad56a]: file upload complete
+[debug] [2020-02-05T23:20:41.062Z] [hosting] deploy completed after 5329ms
+[info] i  database: releasing rules...
+[debug] [2020-02-05T23:20:41.065Z] >>> HTTP REQUEST PUT https://docs-ad56a.firebaseio.com/.settings/rules.json  
+ {
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {
+    ".read": false,
+    ".write": false
+  }
+}
+[debug] [2020-02-05T23:20:41.818Z] <<< HTTP RESPONSE 200
+[info] ✔  database: rules for database docs-ad56a released successfully
+[debug] [2020-02-05T23:20:41.821Z] [rules] releasing cloud.firestore with ruleset projects/docs-ad56a/rulesets/d28fb7b4-b482-4c1e-b9b8-4001c552aafc
+[debug] [2020-02-05T23:20:41.822Z] >>> HTTP REQUEST PATCH https://firebaserules.googleapis.com/v1/projects/docs-ad56a/releases/cloud.firestore  
+
+[debug] [2020-02-05T23:20:42.399Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:42.399Z] [rules] updated release projects/docs-ad56a/releases/cloud.firestore
+[info] ✔  firestore: released rules firestore.rules to cloud.firestore
+[debug] [2020-02-05T23:20:42.403Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/docs-ad56a/locations/-/functions  
+ 
+[debug] [2020-02-05T23:20:42.915Z] <<< HTTP RESPONSE 200
+[info] i  functions: updating Node.js 8 function addAdminRole(us-central1)...
+[debug] [2020-02-05T23:20:42.917Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function addEditorRole(us-central1)...
+[debug] [2020-02-05T23:20:42.917Z] Trigger is:  {"httpsTrigger":{}}
+[debug] [2020-02-05T23:20:42.918Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/docs-ad56a/services/cloudscheduler.googleapis.com  
+ 
+[debug] [2020-02-05T23:20:43.896Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:43.900Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/docs-ad56a/locations/us-central1/functions/addAdminRole {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-02-05T23:20:43.901Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/docs-ad56a/locations/us-central1/functions/addEditorRole {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-02-05T23:20:44.718Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:44.721Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:44.723Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/docs-ad56a/locations/-/functions  
+ 
+[debug] [2020-02-05T23:20:45.237Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:45.240Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:20:45.241Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:20:45.544Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:45.557Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:47.548Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:20:47.558Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:20:47.861Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:47.863Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:49.864Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:20:49.865Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:20:50.168Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:50.169Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:52.171Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:20:52.172Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:20:52.472Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:52.480Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:54.475Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:20:54.480Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:20:54.771Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:54.773Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:56.774Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:20:56.774Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:20:57.064Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:57.065Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:59.068Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:20:59.069Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:20:59.380Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:20:59.386Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:21:01.383Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:21:01.392Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:21:01.676Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:21:01.692Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:21:03.678Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:21:03.694Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:21:03.990Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:21:03.994Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:21:05.994Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:21:05.997Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:21:06.302Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:21:06.312Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:21:08.305Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:21:08.313Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:21:08.603Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:21:08.615Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-05T23:21:10.606Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRBZG1pblJvbGUvczZIQ0dYOUNQaEE  
+ 
+[debug] [2020-02-05T23:21:10.616Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/ZG9jcy1hZDU2YS91cy1jZW50cmFsMS9hZGRFZGl0b3JSb2xlLzlaN3NQWjlsZHl3  
+ 
+[debug] [2020-02-05T23:21:10.927Z] <<< HTTP RESPONSE 200
+[info] ✔  functions[addAdminRole(us-central1)]: Successful update operation. 
+[debug] [2020-02-05T23:21:10.951Z] <<< HTTP RESPONSE 200
+[info] ✔  functions[addEditorRole(us-central1)]: Successful update operation. 
+[debug] [2020-02-05T23:21:10.952Z] [
+  {
+    "config": {
+      "public": "public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "docs-ad56a"
+    },
+    "site": "docs-ad56a",
+    "version": "sites/docs-ad56a/versions/a4074e6bc0cc13d3"
+  }
+]
+[info] i  hosting[docs-ad56a]: finalizing version...
+[debug] [2020-02-05T23:21:10.953Z] >>> HTTP REQUEST PATCH https://firebasehosting.googleapis.com/v1beta1/sites/docs-ad56a/versions/a4074e6bc0cc13d3?updateMask=status  
+

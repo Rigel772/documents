@@ -1,6 +1,7 @@
 <script>
   import { modals, current_event_store } from "../../store";
   import { onMount } from "svelte";
+
   export let current_event;
 
   //   import { auth } from "../../firebase";
@@ -16,9 +17,13 @@
   //       });
   //   };
 
-  function handleClick() {
+  function handleClick(e) {
+    console.log(e);
+    console.log(current_event);
+    $current_event_store = current_event;
     // console.log(current_event.docID);
-    current_event_store.update(() => current_event);
+    // $current_event_store = {};
+    // $current_event_store = current_event;
     // console.log($event_store);
     $modals.editEvent = true;
   }
@@ -50,7 +55,8 @@
 <a href="#!" on:click={handleClick}>
   <button
     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect
-    mdl-button--accent">
+    mdl-button--accent"
+    data-item={current_event.id}>
     Edytuj
   </button>
 </a>

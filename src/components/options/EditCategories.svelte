@@ -1,18 +1,17 @@
 <script>
   import { db } from "../../firebase";
-  import ChooseCategory from "./ChooseCategory.svelte";
+  import { categories } from "../../store.js";
 
   let new_category = "";
   let category_name = "";
-  let categories = [];
 
   db.collection("categories").onSnapshot(snapshot => {
-    categories = [];
+    $categories = [];
     snapshot.docs.forEach(item => {
-      categories = [...categories, item.id];
+      $categories = [...$categories, item.id];
       // console.log(item.data().name);
       // console.log(categories);
-      return categories;
+      return $categories;
     });
   });
 
@@ -23,35 +22,48 @@
       .toUpperCase() + new_category.substring(1);
 
   const addCategory = () => {
-    console.log(" do dodania: ", category_name);
-    // $categories = [...$categories, category_name];
-    db.collection("categories")
-      .add({ name: category_name })
-      .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-      });
-    new_category = "";
+    if (category_name != "") {
+      console.log(" do dodania: ", category_name);
+      // $categories = [...$categories, category_name];
+      db.collection("categories")
+        .doc(category_name)
+        .set({
+          selected_tags: [],
+          tags: []
+        })
+
+        // .then(function(docRef) {
+        //   console.log("Document written with ID: ", docRef.id);
+        // })
+        .catch(function(error) {
+          console.error("Error adding document: ", error);
+        });
+      new_category = "";
+    } else {
+      console.log(category_name);
+    }
   };
 </script>
 
 <style>
-  span {
-    padding: 1em;
+  div.wrapper {
+    padding: 0 1em;
+  }
+  input {
+    width: 100%;
+  }
+  button {
+    margin-top: 1em;
   }
 </style>
 
 <div class="wrapper">
-
-  <div>
-    <h3>Dostepne kategorie:</h3>
-    {#each categories as category}
-      <span>{category}</span>
+  <p>Aktualne kategorie:</p>
+  <ul>
+    {#each $categories as category}
+      <li>{category}</li>
     {/each}
-  </div>
-  <p>Dodaj kategorie: {category_name}</p>
+  </ul>
   <input bind:value={new_category} type="text" />
   <button class="btn" on:click={addCategory}>Dodaj</button>
 </div>

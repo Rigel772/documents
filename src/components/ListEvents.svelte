@@ -6,7 +6,7 @@
 
   import EventCard from "./EventCard.svelte";
   import {
-    event_store,
+    // event_store,
     current_category,
     category_tags,
     selected_category_tags
@@ -16,7 +16,7 @@
     getCategoryTags,
     saveCurrentCategory
     // getEvents
-  } from "./Auth.svelte";
+  } from "./auth.js";
 
   let data = [];
   // let category;
@@ -42,7 +42,7 @@
   });
   ////////////// tego nie da sie przeniesc do Auth bo jest wywolywana za wczesnie - zanim w Choose kategory ustwiony jest nowy $category_tags
   function getEvents(category, tags) {
-    console.log("here", tags);
+    // console.log("here", tags);
     if (tags.length == 0) {
       // console.log("empty");
       db.collection(category)
@@ -56,9 +56,12 @@
               let object_fields = doc.data();
               let full_object = { ...object_fields, id: doc.id };
               // console.log(doc.data());
-              data = [...data, full_object];
+              data.push(full_object);
               // data = [...data, doc.data()];
-              // console.log(full_object);
+              // data = { ...doc.data(), id: doc.id };
+              // console.log("category: ", category);
+              console.log("listing with no tags: ", data);
+              // console.log(tags);
             });
 
             return data;
@@ -71,7 +74,7 @@
       //   console.log("Error getting document:", error);
       // });
     } else {
-      console.log("cos ma");
+      // console.log("cos ma");
       db.collection(category)
         .where("tags", "array-contains-any", tags)
         .orderBy("date", "asc")
@@ -83,9 +86,13 @@
               let object_fields = doc.data();
               let full_object = { ...object_fields, id: doc.id };
               // console.log(doc.data());
-              data = [...data, full_object];
+              data.push(full_object);
               // data = [...data, doc.data()];
               // console.log(full_object);
+              // data = { ...doc.data(), id: doc.id };
+              // console.log("category: ", category);
+              console.log("Listing for selected tags: ", data);
+              console.log("selected tags: ", tags);
             });
 
             return data;
@@ -102,38 +109,42 @@
 
   /////////////////////// generata 'data' each time category changes
   const unsubscribe = current_category.subscribe(value => {
-    // console.log(
-    //   "zadzialalo - category ",
-    //   $current_category,
-    //   "category tags ",
-    //   $category_tags
-    // );
     getEvents(value, $category_tags);
+    console.log("UPDATE for new category", $current_category);
   });
   onDestroy(unsubscribe);
   const unsubscribe1 = selected_category_tags.subscribe(value => {
-    // console.log(
-    //   "zadzialalo - category ",
-    //   $current_category,
-    //   "category tags ",
-    //   $category_tags
-    // );
     getEvents($current_category, value);
+    console.log("Listing for NEW category tags", $category_tags);
   });
   onDestroy(unsubscribe1);
 
-  $: console.log("ListEvents: curent-category: ", $current_category);
+  // $: console.log("ListEvents: curent-category: ", $current_category);
 
-  $: console.log("ListEvents: selected-category-tags", $selected_category_tags);
-  console.dir(data);
+  // $: console.log("ListEvents: selected-category-tags", $selected_category_tags);
+  // console.dir(data);
+
+  // docID={item.id}
+  //         title={item.title}
+  //         date={item.date}
+  //         end_date={item.end_date}
+  //         brief={item.brief}
+  //         descr={item.descr}
+  //         cost={item.cost}
+  //         refund={item.refund}
+  //         tags={item.tags}
+  //         link={item.link}
 </script>
 
 <style>
-  .list-events {
+  /* .list-events {
     margin: 1em;
   }
   ul {
     padding: 0;
+  } */
+  li {
+    display: block;
   }
 </style>
 
@@ -146,17 +157,7 @@
   <ul>
     {#each data as item}
       <li>
-        <EventCard
-          docID={item.id}
-          title={item.title}
-          date={item.date}
-          end_date={item.end_date}
-          brief={item.brief}
-          descr={item.descr}
-          cost={item.cost}
-          refund={item.refund}
-          tags={item.tags}
-          link={item.link} />
+        <EventCard {item} />
       </li>
     {/each}
   </ul>

@@ -1,10 +1,18 @@
 <script>
   import { db } from "../firebase";
   import Modal from "./UI/Modal.svelte";
-  import { modals, current_event_store, category_tags } from "../store.js";
+  import {
+    modals,
+    current_event_store,
+    category_tags,
+    current_category
+  } from "../store.js";
+  import { updateEvent } from "./auth.js";
 
   // let edited_event = event.store;
-  export let current_event;
+
+  // export let current_event;
+
   // console.log("edited event", edited_event);
   // console.log("event store", event_store);
 
@@ -19,10 +27,17 @@
   //     .set({ ...doc });
   // }
 
-  const updateEvent = e => {
-    console.log(e);
+  const handleZapisz = e => {
+    // console.log($current_category);
+    // console.log($current_event_store.id);
+    updateEvent(
+      $current_category,
+      $current_event_store,
+      $current_event_store.id
+    );
+    $modals.editEvent = false;
   };
-  console.dir("edit ttt", current_event);
+  // console.dir("edit ttt", $current_event);
 </script>
 
 <style>
@@ -68,14 +83,14 @@
 <div class="wrapper ">
 
   <Modal on:close={() => ($modals.editEvent = false)}>
-    <div slot="header">
+    <div slot="top">
       <h2>Edycja dokumentu</h2>
       <!-- <p>Tytul {new_event.title}</p>
       <p>Data {new_event.date}</p>
       <p>Opis {new_event.biref}</p>
       <p>Tags {new_event.tags}</p> -->
     </div>
-    <div slot="content">
+    <div slot="middle">
       <form>
         <div class="title">
           <!-- title -->
@@ -165,8 +180,8 @@
 
       </div> -->
     </div>
-    <div slot="footer">
-      <button class="btn green" on:click={updateEvent}>Zapisz</button>
+    <div slot="bottom">
+      <button class="btn green" on:click={handleZapisz}>Zapisz</button>
       <button class="btn green" on:click={() => ($modals.editEvent = false)}>
         Cancel
       </button>

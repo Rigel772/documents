@@ -3,32 +3,35 @@
   import Button from "./UI/Button.svelte";
   import Menu_editDoc from "./UI/Menu_editDoc.svelte";
   import EditEvent from "./EditEvent.svelte";
-  import { modals } from "../store";
+  import { modals, current_event_store } from "../store";
 
-  export let docID = "";
-  export let title = "";
-  export let date = "";
-  export let end_date = "";
-  export let brief = "";
-  export let descr = "";
-  export let cost = "";
-  export let refund = "";
-  export let tags = [];
-  export let link = "";
+  // export let docID = "";
+  // export let title = "";
+  // export let date = "";
+  // export let end_date = "";
+  // export let brief = "";
+  // export let descr = "";
+  // export let cost = "";
+  // export let refund = "";
+  // export let tags = [];
+  // export let link = "";
 
-  let current_event = {
-    docID,
-    title,
-    date,
-    end_date,
-    brief,
-    descr,
-    cost,
-    refund,
-    tags,
-    link
-  };
+  export let item;
 
+  // let current_event = {
+  //   id,
+  //   title,
+  //   date,
+  //   end_date,
+  //   brief,
+  //   descr,
+  //   cost,
+  //   refund,
+  //   tags,
+  //   link
+  // };
+  let current_event = item;
+  // console.log("EventCard", $current_event_store);
   // To show the edit doc link only for admins and editors
   let show_edit_doc_link = false;
   auth.onAuthStateChanged(function(user) {
@@ -107,20 +110,20 @@
 {/if}
 
 <div class="card">
-  <!-- <h3>{docID}</h3> -->
-  <h5>{title}</h5>
+  <p>Doc id: {item.id}</p>
+  <h5>{item.title}</h5>
   <div class="">
 
     <div class="">
       <div class="">
-        <p>{date}</p>
-        {brief}
+        <p>{item.date}</p>
+        {item.brief}
         {#if pokazOpis}
           <div class="szczegoly">
-            <p>{descr}</p>
+            <p>{item.descr}</p>
             <p>
               Poniesione koszta:
-              <strong>{cost}</strong>
+              <strong>{item.cost}</strong>
               PLN
             </p>
           </div>
@@ -133,7 +136,7 @@
           <a href="#!" on:click={toggleOpis}>
             <Button button_text="Szczególy" />
           </a>
-          <a href={link} target="blank">
+          <a href={item.link} target="blank">
             <Button button_text="Dokument" />
           </a>
 
@@ -147,7 +150,7 @@
 
         </div>
         <div class="tags">
-          {#each tags as tag}
+          {#each item.tags as tag}
             <div class="tag">{tag}</div>
           {/each}
         </div>

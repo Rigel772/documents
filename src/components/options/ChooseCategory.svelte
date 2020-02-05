@@ -11,7 +11,7 @@
     getCategoryTags,
     getSelectedCategoryTags,
     updateSelectedCategoryTags
-  } from "../Auth.svelte";
+  } from "../auth.js";
 
   // onMount($current_category => $current_category);
 
@@ -67,12 +67,18 @@
   // };
 </script>
 
-<div class="categories">
-  <h4>Zmień kategorie:</h4>
+<style>
+  option {
+    z-index: 100;
+  }
+</style>
 
-  <select bind:value={$current_category} on:change={handleCategoryChange}>
-    {#each categories as category}
-      <option value={category}>{category}</option>
-    {/each}
-  </select>
-</div>
+<!-- <div class="categories">
+  <h4>Zmień kategorie:</h4> -->
+
+<select bind:value={$current_category} on:change={handleCategoryChange}>
+  {#each categories as category}
+    <option value={category}>{category}</option>
+  {/each}
+</select>
+<!-- </div> -->

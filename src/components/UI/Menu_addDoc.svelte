@@ -15,9 +15,14 @@
 </script>
 
 <style>
-
+  a {
+    padding-left: 1em;
+  }
 </style>
 
-<a href="#!" on:click={() => ($modals.addEvent = true)}>
+<!-- <a href="#!" on:click={() => ($modals.addEvent = true)}>
   <li>Dodaj</li>
+</a> -->
+<a href="#!" on:click={() => ($modals.addEvent = true)}>
+  <button>Nowy dokument</button>
 </a>

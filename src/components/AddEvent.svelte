@@ -9,7 +9,7 @@
     event
   } from "../store";
   import ChooseCategory from "./ChooseCategory.svelte";
-  import { addNewEvent } from "./Auth.svelte";
+  import { addNewEvent } from "./auth.js";
   import { random_event } from "../helpers.js";
 
   // FOR DEVELOPMENT TESTING
@@ -120,7 +120,7 @@
 <div class="wrapper ">
 
   <Modal on:close={() => ($modals.addEvent = false)}>
-    <div slot="header">
+    <div slot="top">
       <h2>Dodaj dokument</h2>
       <!-- <p>Tytul {new_event.title}</p>
       <p>Data {new_event.date}</p>
@@ -131,7 +131,7 @@
         <p>Nowy dokument {$current_category}</p>
       </div>
     </div>
-    <div slot="content">
+    <div slot="middle">
       <form>
         <div class="title">
           <!-- title -->
@@ -208,7 +208,7 @@
       </div>
 
     </div>
-    <div slot="footer">
+    <div slot="bottom">
       <button class="btn green" on:click|preventDefault={handleAddNewEvent}>
         Dodaj dokument
       </button>

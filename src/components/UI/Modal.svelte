@@ -2,8 +2,11 @@
   import { createEventDispatcher, onDestroy } from "svelte";
 
   const dispatch = createEventDispatcher();
-  const close = () => dispatch("close");
+  const close = () => {
+    dispatch("close");
+  };
   let modal;
+
   const handle_keydown = e => {
     if (e.key === "Escape") {
       close();
@@ -52,8 +55,8 @@
     left: 50%;
     top: 50%;
     width: 100vw;
-    /* max-width: 32em; */
-    /* max-height: calc(100vh - 4em); */
+    max-width: 32em;
+    max-height: calc(100vh - 4em);
     overflow: auto;
     transform: translate(-50%, -50%);
     padding: 1em;
@@ -102,11 +105,11 @@
 <div class="modal-background" on:click={close} />
 
 <div class="modal" role="dialog" aria-modal="true" bind:this={modal}>
-  <slot name="header" />
+  <slot name="top" />
   <hr />
-  <slot name="content" />
+  <slot name="middle" />
   <hr />
-  <slot name="footer">
+  <slot name="bottom">
     <button>helo</button>
   </slot>
 

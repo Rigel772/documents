@@ -9,7 +9,7 @@
   import ChooseCategory from "./ChooseCategory.svelte";
   import CategoryTags from "./CategoryTags.svelte";
   import { db } from "../../firebase";
-  import { updateSelectedCategoryTags } from "../Auth.svelte";
+  import { updateSelectedCategoryTags } from "../auth.js";
   let oskar_tags;
   let tag_value;
   let selected = "";
@@ -49,24 +49,11 @@
 </script>
 
 <style>
-  .wrapper {
-    padding: 1em;
-    margin: 1em;
-    background-color: #dddddd;
-    height: 100%;
-    border-radius: 3px;
-  }
-  h4,
-  select {
-    display: inline-block;
-  }
-  h4 {
-    margin-right: 1em;
-  }
   .tags {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding: 0 1em;
   }
   label {
     display: inline;
@@ -74,35 +61,21 @@
   }
 </style>
 
-<div class="wrapper">
-  <ChooseCategory />
-  <h4>
-    KATERGORIA
-    <strong>{$current_category}</strong>
-  </h4>
-  <h5>Tagi:</h5>
-  <div class="tags">
-    {#each $category_tags as tag}
-      <div class="tag" data-target={tag}>
+<div class="tags">
+  {#each $category_tags as tag}
+    <div class="tag" data-target={tag}>
 
-        <label>
-          <input
-            on:click={updateTagsState}
-            class="checkbox"
-            type="checkbox"
-            name="tagi"
-            value={tag}
-            bind:group={$selected_category_tags} />
-          {tag}
-        </label>
-      </div>
-    {/each}
-
-  </div>
-
-  <div class="new-category">
-    <EditCategories />
-  </div>
-  <CategoryTags />
+      <label>
+        <input
+          on:click={updateTagsState}
+          class="checkbox"
+          type="checkbox"
+          name="tagi"
+          value={tag}
+          bind:group={$selected_category_tags} />
+        {tag}
+      </label>
+    </div>
+  {/each}
 
 </div>

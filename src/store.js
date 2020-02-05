@@ -13,6 +13,9 @@ export const showModalAddEvent = writable(false);
 export const showModalLogin = writable(false);
 export const showModalEditEvent = writable(false);
 
+
+export const categories = writable([]);
+
 export const modals = writable({
     login: false,
     addUser: false,
@@ -53,6 +56,6 @@ export const category_tags = writable(["krakow"]);
 
 export const selected_category_tags = writable([])
 
-export const categories = writable([])
+
 
 export const tags = []
