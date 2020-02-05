@@ -2,6 +2,8 @@
   import { auth, db } from "../firebase";
   import Button from "./UI/Button.svelte";
   import Menu_editDoc from "./UI/Menu_editDoc.svelte";
+  import EditEvent from "./EditEvent.svelte";
+  import { modals } from "../store";
 
   export let docID = "";
   export let title = "";
@@ -100,9 +102,13 @@
   }
 </style>
 
+{#if $modals.editEvent}
+  <EditEvent {current_event} />
+{/if}
+
 <div class="card">
   <!-- <h3>{docID}</h3> -->
-  <h3>{title}</h3>
+  <h5>{title}</h5>
   <div class="">
 
     <div class="">

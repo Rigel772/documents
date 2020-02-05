@@ -2,8 +2,7 @@
   import Menu from "./components/UI/Menu.svelte";
   import ListEvents from "./components/ListEvents.svelte";
   import Users from "./components/Users.svelte";
-  import AddEvent from "./components/AddEvent.svelte";
-  import EditEvent from "./components/EditEvent.svelte";
+
   import Login from "./components/Login.svelte";
   import Options from "./components/options/Options.svelte";
   import { modals } from "./store";
@@ -184,13 +183,6 @@
       <Users />
     {/if}
 
-    {#if $modals.addEvent}
-      <AddEvent />
-    {/if}
-
-    {#if $modals.editEvent}
-      <EditEvent />
-    {/if}
     {#if showInfo}
       <Info />
     {/if}

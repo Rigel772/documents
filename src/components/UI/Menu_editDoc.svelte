@@ -1,5 +1,5 @@
 <script>
-  import { modals, event_store } from "../../store";
+  import { modals, current_event_store } from "../../store";
   import { onMount } from "svelte";
   export let current_event;
 
@@ -17,9 +17,9 @@
   //   };
 
   function handleClick() {
-    // console.log(docID);
-    event_store.update(() => current_event);
-    console.log($event_store);
+    // console.log(current_event.docID);
+    current_event_store.update(() => current_event);
+    // console.log($event_store);
     $modals.editEvent = true;
   }
 </script>
@@ -48,5 +48,9 @@
 
 <!-- <a href="#!" on:click={() => ($modals.editEvent = true)}> -->
 <a href="#!" on:click={handleClick}>
-  <button class="btn">Edytuj</button>
+  <button
+    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect
+    mdl-button--accent">
+    Edytuj
+  </button>
 </a>

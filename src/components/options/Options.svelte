@@ -1,7 +1,6 @@
 <script>
   import {
     tags,
-    filter_tags,
     current_category,
     category_tags,
     selected_category_tags
@@ -77,11 +76,11 @@
 
 <div class="wrapper">
   <ChooseCategory />
-  <h3>
-    KATERGORIA hLO
+  <h4>
+    KATERGORIA
     <strong>{$current_category}</strong>
-  </h3>
-  <h4>Tagi:</h4>
+  </h4>
+  <h5>Tagi:</h5>
   <div class="tags">
     {#each $category_tags as tag}
       <div class="tag" data-target={tag}>

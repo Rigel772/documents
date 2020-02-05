@@ -38,31 +38,6 @@
     // };
   }
 
-  //////////////////TO MUSI BYC W LIST EVENTS
-  // let data = [];
-  // export async function getEvents(category, tags) {
-  //   db.collection(category)
-  //     .where("tags", "array-contains-any", tags)
-  //     .orderBy("date", "asc")
-  //     .get()
-  //     .then(
-  //       snapshot => {
-  //         // console.log("current category do firebase", $current_category);
-  //         // console.log("category tags do firebase", $category_tags);
-  //         // console.log(snapshot.docs());
-  //         data = [];
-  //         snapshot.docs.forEach(doc => (data = [...data, doc.data()]));
-  //         // console.log("pierwsza", data);
-  //         return data;
-  //       },
-  //       function(error) {
-  //         console.log(error);
-  //       }
-  //     )
-  //     .catch(function(error) {
-  //       console.log("Error getting document:", error);
-  //     });
-  // }
   let selected_category_tags;
   export async function getSelectedCategoryTags(category) {
     let docRef = db.collection("categories").doc(category);
@@ -140,15 +115,27 @@
       });
   };
 
-  export const addEvent = new_event => {
-    db.collection("events")
-      .add(new_event)
-      .then(function(docRef) {
-        console.log("Category created with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-        console.error("Error addin new category...", error);
-      });
+  export const addNewEvent = (category, new_event) => {
+    if (
+      new_event.title != "" &&
+      new_event.date != "" &&
+      new_event.biref != ""
+    ) {
+      db.collection(category)
+        .add(new_event)
+        .then(function() {
+          console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+          console.error("Error writing document: ", error);
+        });
+      new_event.title = "";
+      new_event.date = "";
+      new_event.brief = "";
+      new_event.descr = "";
+    } else {
+      alert("Posze wypelnic przynajmniej 3 pierwsze pola");
+    }
   };
 
   export const updateEvent = (event, id) => {
@@ -163,4 +150,29 @@
         console.error("Error addin new category...", error);
       });
   };
+  //////////////////TO MUSI BYC W LIST EVENTS
+  // let data = [];
+  // export async function getEvents(category, tags) {
+  //   db.collection(category)
+  //     .where("tags", "array-contains-any", tags)
+  //     .orderBy("date", "asc")
+  //     .get()
+  //     .then(
+  //       snapshot => {
+  //         // console.log("current category do firebase", $current_category);
+  //         // console.log("category tags do firebase", $category_tags);
+  //         // console.log(snapshot.docs());
+  //         data = [];
+  //         snapshot.docs.forEach(doc => (data = [...data, doc.data()]));
+  //         // console.log("pierwsza", data);
+  //         return data;
+  //       },
+  //       function(error) {
+  //         console.log(error);
+  //       }
+  //     )
+  //     .catch(function(error) {
+  //       console.log("Error getting document:", error);
+  //     });
+  // }
 </script>

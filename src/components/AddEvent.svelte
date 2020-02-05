@@ -1,51 +1,76 @@
 <script>
   import { db } from "../firebase";
   import Modal from "./UI/Modal.svelte";
-  import { modals, events, tags, categories, current_category } from "../store";
+  import {
+    modals,
+    category_tags,
+    categories,
+    current_category,
+    event
+  } from "../store";
   import ChooseCategory from "./ChooseCategory.svelte";
+  import { addNewEvent } from "./Auth.svelte";
+  import { random_event } from "../helpers.js";
 
-  let new_event = {
-    title: "",
-    date: "",
-    brief: "",
-    descr: "",
-    date: "",
-    end_date: "",
-    cost: "",
-    refund: "",
-    tags: tags,
-    link:
-      "https://drive.google.com/file/d/1rFmveqM6_azs86SKMf2xLmHBnuRTVMsk/view?usp=sharing"
-  };
+  // FOR DEVELOPMENT TESTING
+  // let event = $random_event;
+  //FOR PRODUCTION
+  // let new_event = $random_event;
+  // let new_event = {
+  //   id: "",
+  //   title: "",
+  //   date: "",
+  //   brief: "",
+  //   descr: "",
+  //   date: "",
+  //   end_date: "",
+  //   cost: "",
+  //   refund: "",
+  //   tags: [],
+  //   link: ""
+  // };
+  let new_event = random_event;
 
   let message = "";
 
-  let available_tags = tags;
+  // let available_tags = tags;
   // let choosen_tags = tags;
 
-  function addNewEvent() {
-    if (
-      new_event.title != "" &&
-      new_event.date != "" &&
-      new_event.biref != ""
-    ) {
-      db.collection($current_category)
-        .add(new_event)
-        .then(function() {
-          console.log("Document successfully written!");
-          message = "Dokument zapisano.";
-        })
-        .catch(function(error) {
-          console.error("Error writing document: ", error);
-        });
-      new_event.title = "";
-      new_event.date = "";
-      new_event.brief = "";
-      new_event.descr = "";
-    } else {
-      alert("Posze wypelnic przynajmniej 3 pierwsze pola");
-    }
-  }
+  const handleAddNewEvent = () => {
+    addNewEvent($current_category, new_event);
+    message = "Dokument zapisano.";
+    //reload ListEvents
+  };
+
+  // function addNewEvent() {
+  //   if (
+  //     new_event.title != "" &&
+  //     new_event.date != "" &&
+  //     new_event.biref != ""
+  //   ) {
+  //     db.collection($current_category)
+  //       .add(new_event)
+  //       .then(function() {
+  //         console.log("Document successfully written!");
+  //         message = "Dokument zapisano.";
+  //       })
+  //       .catch(function(error) {
+  //         console.error("Error writing document: ", error);
+  //       });
+  //     new_event.title = "";
+  //     new_event.date = "";
+  //     new_event.brief = "";
+  //     new_event.descr = "";
+  //   } else {
+  //     alert("Posze wypelnic przynajmniej 3 pierwsze pola");
+  //   }
+  // }
+  console.log(
+    "AddEvent - current-category: ",
+    $current_category,
+    "tags: ",
+    $category_tags
+  );
 </script>
 
 <style>
@@ -102,8 +127,8 @@
       <p>Opis {new_event.biref}</p>
       <p>Tags {new_event.tags}</p> -->
       <div class="categories">
-        <ChooseCategory />
-        <p>Kategoria dokumentu {$current_category}</p>
+        <!-- <ChooseCategory /> -->
+        <p>Nowy dokument {$current_category}</p>
       </div>
     </div>
     <div slot="content">
@@ -154,9 +179,12 @@
         </div>
 
       </form>
-      <h4>Tagi:</h4>
+      <h4>
+        Tagi w kategori
+        <strong>{$current_category}</strong>
+      </h4>
       <div class="tags">
-        {#each available_tags as tag}
+        {#each $category_tags as tag}
           <div class="tag">
             <input
               id={tag}
@@ -181,7 +209,7 @@
 
     </div>
     <div slot="footer">
-      <button class="btn green" on:click|preventDefault={addNewEvent}>
+      <button class="btn green" on:click|preventDefault={handleAddNewEvent}>
         Dodaj dokument
       </button>
       <button class="btn green" on:click={() => ($modals.addEvent = false)}>

@@ -1,23 +1,28 @@
 <script>
   import { db } from "../firebase";
   import Modal from "./UI/Modal.svelte";
-  import { modals, event_store, tags } from "../store.js";
+  import { modals, current_event_store, category_tags } from "../store.js";
 
   // let edited_event = event.store;
-
+  export let current_event;
   // console.log("edited event", edited_event);
   // console.log("event store", event_store);
 
-  function updateEvent() {
-    console.dir($event_store);
-    let doc_id = $event_store.docID;
-    let doc = $event_store;
-    console.log("id ", doc_id);
-    console.log("doc ", doc);
-    db.collection("events")
-      .doc(doc_id)
-      .set({ ...doc });
-  }
+  // function updateEvent() {
+  //   console.dir($event_store);
+  //   let doc_id = $event_store.docID;
+  //   let doc = $event_store;
+  //   console.log("id ", doc_id);
+  //   console.log("doc ", doc);
+  //   db.collection("events")
+  //     .doc(doc_id)
+  //     .set({ ...doc });
+  // }
+
+  const updateEvent = e => {
+    console.log(e);
+  };
+  console.dir("edit ttt", current_event);
 </script>
 
 <style>
@@ -78,55 +83,58 @@
           <input
             id="tile"
             type="text"
-            bind:value={$event_store.title}
+            bind:value={$current_event_store.title}
             required />
         </div>
 
         <div class="date">
           <!-- date -->
           <label for="date">Data</label>
-          <input type="date" bind:value={$event_store.date} required />
+          <input type="date" bind:value={$current_event_store.date} required />
         </div>
         <div class="date">
           <!-- event end date -->
           <label for="end-date">Końcowa data (opcjonalnie)</label>
-          <input type="date" bind:value={$event_store.end_date} required />
+          <input
+            type="date"
+            bind:value={$current_event_store.end_date}
+            required />
         </div>
         <div class="brief">
           <!-- biref -->
           <label>Krótki opis</label>
-          <input type="text" bind:value={$event_store.brief} required />
+          <input type="text" bind:value={$current_event_store.brief} required />
         </div>
         <div class="descr">
           <!-- descr -->
           <label>Szczegółowy opis</label>
-          <textarea id="opis_dlugi" bind:value={$event_store.descr} />
+          <textarea id="opis_dlugi" bind:value={$current_event_store.descr} />
           <label for="opis_dlugi" />
         </div>
         <!-- koszta -->
         <div class="cost">
           <label>Koszta</label>
-          <input type="number" bind:value={$event_store.cost} />
+          <input type="number" bind:value={$current_event_store.cost} />
         </div>
         <div class="refund">
           <label>Refund</label>
-          <input type="number" bind:value={$event_store.refund} />
+          <input type="number" bind:value={$current_event_store.refund} />
         </div>
 
         <div class="link">
           <label>Link do dokumentu</label>
-          <input type="text" bind:value={$event_store.link} />
+          <input type="text" bind:value={$current_event_store.link} />
         </div>
 
       </form>
       <h4>Tagi:</h4>
       <div class="tags">
-        {#each $event_store.tags as tag}
+        {#each $category_tags as tag}
           <div class="tag">
             <input
               id={tag}
               type="checkbox"
-              bind:group={$event_store.tags}
+              bind:group={$current_event_store.tags}
               value={tag} />
             <label for={tag}>{tag}</label>
 

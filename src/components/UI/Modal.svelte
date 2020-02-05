@@ -46,15 +46,14 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.664);
   }
-
   .modal {
     position: absolute;
     z-index: 1004;
     left: 50%;
     top: 50%;
-    width: calc(100vw - 4em);
-    max-width: 32em;
-    max-height: calc(100vh - 4em);
+    width: 100vw;
+    /* max-width: 32em; */
+    /* max-height: calc(100vh - 4em); */
     overflow: auto;
     transform: translate(-50%, -50%);
     padding: 1em;
@@ -64,6 +63,37 @@
 
   button {
     display: block;
+  }
+
+  @media only screen and (min-width: 700px) {
+    .modal-background {
+      position: fixed;
+      z-index: 1003;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.664);
+    }
+
+    .modal {
+      position: absolute;
+      z-index: 1004;
+      left: 50%;
+      top: 50%;
+      width: calc(100vw - 4em);
+      max-width: 32em;
+      max-height: calc(100vh - 4em);
+      overflow: auto;
+      transform: translate(-50%, -50%);
+      padding: 1em;
+      border-radius: 0.2em;
+      background: white;
+    }
+
+    button {
+      display: block;
+    }
   }
 </style>
 

@@ -1,6 +1,6 @@
 <script>
   import { db } from "../firebase";
-  import { current_category } from "../store";
+  import { current_category, category_tags } from "../store";
   // import { onMount, afterUpdate } from "svelte";
   import { saveCurrentCategory } from "./Auth.svelte";
 
@@ -24,7 +24,7 @@
     //update current category in database
     saveCurrentCategory($current_category);
     //load all category tags
-
+    getCategoryTags().then(tags => ($category_tags = tags));
     //load last choosen category tags
   }
   $: console.log("from choose category", $current_category);

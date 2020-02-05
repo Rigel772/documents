@@ -1,6 +1,9 @@
 <script>
   import { onMount, onDestroy, afterUpdate } from "svelte";
   import { db } from "../firebase";
+  import { modals } from "../store";
+  import AddEvent from "./AddEvent.svelte";
+
   import EventCard from "./EventCard.svelte";
   import {
     event_store,
@@ -17,6 +20,7 @@
 
   let data = [];
   // let category;
+  let current_event = {};
 
   ////////////////////// get category from database and set store values
   onMount(() => {
@@ -38,28 +42,64 @@
   });
   ////////////// tego nie da sie przeniesc do Auth bo jest wywolywana za wczesnie - zanim w Choose kategory ustwiony jest nowy $category_tags
   function getEvents(category, tags) {
-    db.collection(category)
-      .where("tags", "array-contains-any", tags)
-      .orderBy("date", "asc")
-      .get()
-      .then(
-        snapshot => {
-          // console.log("current category do firebase", $current_category);
-          // console.log("category tags do firebase", $category_tags);
-          // console.log(snapshot.docs());
-          data = [];
-          snapshot.docs.forEach(doc => (data = [...data, doc.data()]));
-          // console.log("pierwsza", data);
-          return data;
-        },
-        function(error) {
-          console.log(error);
-        }
-      )
-      .catch(function(error) {
-        console.log("Error getting document:", error);
-      });
+    console.log("here", tags);
+    if (tags.length == 0) {
+      // console.log("empty");
+      db.collection(category)
+        // .where("tags", "array-contains-any", tags)
+        .orderBy("date", "asc")
+        // .get()
+        .onSnapshot(
+          snapshot => {
+            data = [];
+            snapshot.docs.forEach(doc => {
+              let object_fields = doc.data();
+              let full_object = { ...object_fields, id: doc.id };
+              // console.log(doc.data());
+              data = [...data, full_object];
+              // data = [...data, doc.data()];
+              // console.log(full_object);
+            });
+
+            return data;
+          },
+          function(error) {
+            console.log(error);
+          }
+        );
+      // .catch(function(error) {
+      //   console.log("Error getting document:", error);
+      // });
+    } else {
+      console.log("cos ma");
+      db.collection(category)
+        .where("tags", "array-contains-any", tags)
+        .orderBy("date", "asc")
+        // .get()
+        .onSnapshot(
+          snapshot => {
+            data = [];
+            snapshot.docs.forEach(doc => {
+              let object_fields = doc.data();
+              let full_object = { ...object_fields, id: doc.id };
+              // console.log(doc.data());
+              data = [...data, full_object];
+              // data = [...data, doc.data()];
+              // console.log(full_object);
+            });
+
+            return data;
+          },
+          function(error) {
+            console.log(error);
+          }
+        );
+      // .catch(function(error) {
+      //   console.log("Error getting document:", error);
+      // });
+    }
   }
+
   /////////////////////// generata 'data' each time category changes
   const unsubscribe = current_category.subscribe(value => {
     // console.log(
@@ -71,8 +111,21 @@
     getEvents(value, $category_tags);
   });
   onDestroy(unsubscribe);
+  const unsubscribe1 = selected_category_tags.subscribe(value => {
+    // console.log(
+    //   "zadzialalo - category ",
+    //   $current_category,
+    //   "category tags ",
+    //   $category_tags
+    // );
+    getEvents($current_category, value);
+  });
+  onDestroy(unsubscribe1);
 
-  // $: console.log("from list events", $current_category);
+  $: console.log("ListEvents: curent-category: ", $current_category);
+
+  $: console.log("ListEvents: selected-category-tags", $selected_category_tags);
+  console.dir(data);
 </script>
 
 <style>
@@ -83,6 +136,10 @@
     padding: 0;
   }
 </style>
+
+{#if $modals.addEvent}
+  <AddEvent />
+{/if}
 
 <!-- {@debug eventsList} -->
 <div class="list-events">
