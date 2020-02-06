@@ -60,7 +60,7 @@
               // data = [...data, doc.data()];
               // data = { ...doc.data(), id: doc.id };
               // console.log("category: ", category);
-              console.log("listing with no tags: ", data);
+              // console.log("listing with no tags: ", data);
               // console.log(tags);
             });
 
@@ -91,8 +91,8 @@
               // console.log(full_object);
               // data = { ...doc.data(), id: doc.id };
               // console.log("category: ", category);
-              console.log("Listing for selected tags: ", data);
-              console.log("selected tags: ", tags);
+              // console.log("Listing for selected tags: ", data);
+              // console.log("selected tags: ", tags);
             });
 
             return data;

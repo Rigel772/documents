@@ -17,7 +17,7 @@
   // export let link = "";
 
   export let item;
-
+  console.log("EventCard");
   // let current_event = {
   //   id,
   //   title,
@@ -105,7 +105,7 @@
   }
 </style>
 
-{#if $modals.editEvent}
+{#if $modals.editEvent && $current_event_store.id == item.id}
   <EditEvent {current_event} />
 {/if}
 

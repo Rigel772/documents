@@ -37,24 +37,24 @@
       previously_focused.focus();
     });
   }
+
+  console.log("Modal");
 </script>
 
 <style>
   .modal-background {
     position: fixed;
-    z-index: 1003;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.664);
+    background: rgba(0, 0, 0, 0.3);
   }
   .modal {
     position: absolute;
-    z-index: 1004;
     left: 50%;
     top: 50%;
-    width: 100vw;
+    width: calc(100vw - 4em);
     max-width: 32em;
     max-height: calc(100vh - 4em);
     overflow: auto;
@@ -62,6 +62,13 @@
     padding: 1em;
     border-radius: 0.2em;
     background: white;
+    /* overflow: auto;
+    z-index: 1004;
+    margin: auto;
+    padding: 1em;
+    width: 90%;
+    background: white;
+    transform: translate(-19%, -5%); */
   }
 
   button {

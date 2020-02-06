@@ -1,6 +1,7 @@
 <script>
   import { modals, current_event_store } from "../../store";
   import { onMount } from "svelte";
+  import Button from "./Button.svelte";
 
   export let current_event;
 
@@ -17,9 +18,10 @@
   //       });
   //   };
 
+  console.log("From Menu_Edit", current_event);
   function handleClick(e) {
-    console.log(e);
-    console.log(current_event);
+    console.log("button Edit from event:", current_event.id);
+    // console.log(e);
     $current_event_store = current_event;
     // console.log(current_event.docID);
     // $current_event_store = {};
@@ -53,10 +55,10 @@
 
 <!-- <a href="#!" on:click={() => ($modals.editEvent = true)}> -->
 <a href="#!" on:click={handleClick}>
-  <button
+  <Button
+    button_text="Edytuj"
     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect
-    mdl-button--accent"
-    data-item={current_event.id}>
+    mdl-button--accent">
     Edytuj
-  </button>
+  </Button>
 </a>

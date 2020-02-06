@@ -8,6 +8,8 @@
     current_category
   } from "../store.js";
   import { updateEvent } from "./auth.js";
+  console.log("Edit Event");
+  // export let current_event;
 
   // let edited_event = event.store;
 
@@ -27,9 +29,9 @@
   //     .set({ ...doc });
   // }
 
-  const handleZapisz = e => {
-    // console.log($current_category);
-    // console.log($current_event_store.id);
+  const handleZapisz = () => {
+    // console.log("category to update: ", $current_category);
+    // console.log("event id do update", $current_event_store.id);
     updateEvent(
       $current_category,
       $current_event_store,
